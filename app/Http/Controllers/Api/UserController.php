@@ -7,7 +7,8 @@ use App\Http\Controllers\Api\BaseController as BaseController;
 
 use Illuminate\Http\Request;
 use App\Models\User;
-use App\Models\Child;
+// use App\Models\Child;
+use App\Models\Wallet;
 use App\Models\Notification;
 use Image;
 use File;
@@ -60,6 +61,18 @@ class UserController extends BaseController
 		return response()->json(['success'=>true,'unread'=> $unread,'read'=> $read,'notification' => $data]);
 	}
 	
+	public function wallet()
+	{
+		try
+		{
+			$wallet = Wallet::where('user_id',Auth::user()->id)->first();
+			return response()->json(['success'=>true,'message'=> 'My Wallet','wallet' => $wallet],200);
+		}
+		catch(\Eception $e)
+		{
+			return response()->json(['error'=>$e->getMessage()]);
+	   	}
+	}
 	
 	public function read_notification(Request $request)
 	{

@@ -19,7 +19,7 @@ use App\Events\MessageSent;
 */
 
 Route::get("/saad",function(){
-        return "<h1>asdasd</h1>";
+        return "<h1>saad</h1>";
 });
 
 
@@ -44,6 +44,7 @@ Route::group(['middleware' => ['api','auth:api'], 'prefix' => 'auth'], function 
 {
 
     Route::post('/bookride', [App\Http\Controllers\Api\BookRideController::class, 'bookRide']);
+    Route::get('wallet',[App\Http\Controllers\Api\UserController::class,'wallet']);
 
     // Route::post('/message', function (Request $request) {
     //     // Create a dummy message for testing
@@ -61,23 +62,23 @@ Route::group(['middleware' => ['api','auth:api'], 'prefix' => 'auth'], function 
     //     return response()->json(['status' => 'Message broadcasted']);
     // });
 
-	Route::POST('send_message',[App\Http\Controllers\Api\MessageController::class,'sendMessage']);
-	Route::get('chat_list',[App\Http\Controllers\Api\MessageController::class,'chat_list']);
-	Route::get('message_list/{id}',[App\Http\Controllers\Api\MessageController::class,'message_list']);
-	Route::get('product',[App\Http\Controllers\Api\ProductController::class,'index']);
+	// Route::POST('send_message',[App\Http\Controllers\Api\MessageController::class,'sendMessage']);
+	// Route::get('chat_list',[App\Http\Controllers\Api\MessageController::class,'chat_list']);
+	// Route::get('message_list/{id}',[App\Http\Controllers\Api\MessageController::class,'message_list']);
+	// Route::get('product',[App\Http\Controllers\Api\ProductController::class,'index']);
     Route::post('profile', [\App\Http\Controllers\Api\UserController::class, 'profile']);  
 	// Route::resource('document',App\Http\Controllers\Api\DocumentController::class);
 	// Route::resource('pdf',App\Http\Controllers\Api\PDFController::class);
     
-    Route::post('/donate', [App\Http\Controllers\Api\DonateController::class, 'store']);
-    Route::post('/checkout', [App\Http\Controllers\Api\OrderController::class, 'store']);
-    Route::get('/orders/list', [App\Http\Controllers\Api\OrderController::class, 'index']);
+    // Route::post('/donate', [App\Http\Controllers\Api\DonateController::class, 'store']);
+    // Route::post('/checkout', [App\Http\Controllers\Api\OrderController::class, 'store']);
+    // Route::get('/orders/list', [App\Http\Controllers\Api\OrderController::class, 'index']);
 
     // Route::post('review',[App\Http\Controllers\Api\UserController::class,'review']);
     // Route::get('review',[App\Http\Controllers\Api\UserController::class,'review_list']);
-    Route::post('support',[App\Http\Controllers\Api\UserController::class,'support']);
-    Route::post('user_status',[App\Http\Controllers\Api\UserController::class,'status_update']);
-    Route::get('support',[App\Http\Controllers\Api\UserController::class,'support_list']);
+    // Route::post('support',[App\Http\Controllers\Api\UserController::class,'support']);
+    // Route::post('user_status',[App\Http\Controllers\Api\UserController::class,'status_update']);
+    // Route::get('support',[App\Http\Controllers\Api\UserController::class,'support_list']);
 
     Route::group(['prefix' => 'customer'], function () {
         Route::get('journey',[App\Http\Controllers\Api\Customer\BookingController::class,'journey']);
@@ -125,7 +126,7 @@ Route::group(['middleware' => ['api','auth:api'], 'prefix' => 'auth'], function 
     // Route::post('addcard', [\App\Http\Controllers\UserCardController::class, 'addcard']);
 	// Route::post('updatecard', [\App\Http\Controllers\UserCardController::class, 'updatecard']); 
     // Route::get('me', [\App\Http\Controllers\Api\RegisterController::class, 'me']);
-    Route::get('user', [\App\Http\Controllers\Api\RegisterController::class, 'user']);
+    // Route::get('user', [\App\Http\Controllers\Api\RegisterController::class, 'user']);
     // Route::get('orders', [\App\Http\Controllers\Api\OrderController::class, 'orders']);
     // Route::get('children_orders', [\App\Http\Controllers\Api\OrderController::class, 'childorders']);
     // Route::post('order/{status}', [\App\Http\Controllers\Api\OrderController::class, 'orders_status']);
