@@ -20,7 +20,7 @@ class BookingController extends BaseController
     
     public function car_list()
     {
-        $data['rides'] = Car::where('status','active')->get();
+        $data = Car::where('status','active')->get();
         return $this->sendResponse($data, 'My Journey Lists');
     }
 }
