@@ -4,9 +4,13 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Models\Car;
-use App\Models\Category;
-use App\Models\PostTag;
-use App\Models\Brand;
+use App\Models\Ride;
+use App\Models\User;
+use Pusher\Pusher;
+
+// use App\Models\Category;
+// use App\Models\PostTag;
+// use App\Models\Brand;
 
 use Illuminate\Support\Str;
 
@@ -21,7 +25,60 @@ class CarController extends Controller
     {
         $cars=Car::paginate(10);
         // return $cars;
-        return view('backend.Car.index')->with('cars',$cars);
+        return view('backend.car.index')->with('cars',$cars);
+    }
+    
+    public function car_ride_request()
+    {
+        $cars= Ride::where('status','pending')->paginate(10);
+        // return $cars;
+        return view('backend.car.ride-request')->with('rides',$cars);
+    }
+    
+    public function car_rides()
+    {
+        $cars= Ride::whereNot('status','pending')->paginate(10);
+        // return $cars;
+        return view('backend.car.ride-list')->with('rides',$cars);
+    }
+    
+    public function car_ride_assign_form($id)
+    {
+        $data['ride'] = Ride::find($id);
+        $data['cars'] = Car::get();
+        $data['riders'] = User::where('role','rider')->where('assign','no')->get();
+        return view('backend.car.ride-assign',$data);
+    }
+    
+    public function car_ride_assign($id,Request $request)
+    {
+        // return $request->all();
+        $ride =  Ride::find($id);
+        $ride->rider_id = $request->rider_id;
+        $ride->status = 'confirm';
+        $ride->save();
+
+        $this->sendRideNotification($ride);
+        // $data['cars'] = Car::get();
+        // $data['riders'] = User::where('role','rider')->where('assign','no')->get();
+        return redirect('admin/car-ride-new')->with('success' , 'Ride Assign Successfully');
+    }
+
+    protected function sendRideNotification(Ride $ride)
+    {
+        $pusher = new Pusher(
+            env('PUSHER_APP_KEY'),
+            env('PUSHER_APP_SECRET'),
+            env('PUSHER_APP_ID'),
+            [
+                'cluster' => env('PUSHER_APP_CLUSTER'),
+                'useTLS' => true
+            ]
+        );
+
+        $data['message'] = 'Your ride from ' . $ride->location_from . ' to ' . $ride->location_to . ' has been booked!';
+        $data['data'] = $ride;
+        $pusher->trigger('ride-channel', 'ride-booked', $data);
     }
 
     /**

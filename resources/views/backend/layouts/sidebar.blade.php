@@ -53,13 +53,7 @@
     <!-- Divider -->
     <hr class="sidebar-divider">
         <!-- Heading -->
-        <!--Orders -->
-    <!-- <li class="nav-item">
-        <a class="nav-link" href="{{route('order.index')}}">
-            <i class="fas fa-hammer fa-chart-area"></i>
-            <span>Orders</span>
-        </a>
-    </li> -->
+
 
    
     
@@ -69,12 +63,7 @@
             <i class="fas fa-users"></i>
             <span>Users </span></a>
     </li>
-    <!-- <li class="nav-item">
-        <a class="nav-link" href="{{route('vendors.index')}}">
-          <i class="fas fa-users"></i>
-          <span>Vendors</span>
-        </a>
-    </li> -->
+   
      <!-- General settings -->
      <li class="nav-item">
         <a class="nav-link" href="{{route('settings')}}">

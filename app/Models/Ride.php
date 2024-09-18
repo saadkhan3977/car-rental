@@ -14,4 +14,14 @@ class Ride extends Model
     {
         return $this->hasOne(User::class, 'id', 'rider_id');
     }
+    
+    public function user()
+    {
+        return $this->hasOne(User::class, 'id', 'user_id');
+    }
+    
+    public function carinfo()
+    {
+        return $this->hasOne(Car::class, 'id', 'car_id');
+    }
 }

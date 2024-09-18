@@ -124,36 +124,40 @@ Route::group(['prefix'=>'admin','middleware'=>['auth','admin']],function(){
     // user route
     Route::resource('users',\App\Http\Controllers\UsersController::class);
     // vendor route
-    Route::resource('vendors',\App\Http\Controllers\VendorsController::class);
+    //Route::resource('vendors',\App\Http\Controllers\VendorsController::class);
     // Banner
-    Route::resource('banner',App\Http\Controllers\BannerController::class);
+    // Route::resource('banner',App\Http\Controllers\BannerController::class);
     // Brand
-    Route::resource('brand',\App\Http\Controllers\BrandController::class);
+    // Route::resource('brand',\App\Http\Controllers\BrandController::class);
     // Profile
     Route::get('/profile',[\App\Http\Controllers\AdminController::class,'profile'])->name('admin.profile');
     Route::post('/profile/{id}',[\App\Http\Controllers\AdminController::class,'profileUpdate'])->name('profile-update');
     // Category
-    Route::resource('/category',\App\Http\Controllers\CategoryController::class);
+    // Route::resource('/category',\App\Http\Controllers\CategoryController::class);
     // Product
     Route::resource('/car',\App\Http\Controllers\CarController::class);
+    Route::get('/car-rides',[\App\Http\Controllers\CarController::class,'car_rides']);
+    Route::get('/car-ride-new',[\App\Http\Controllers\CarController::class,'car_ride_request']);
+    Route::get('/car-ride-assign/{id}',[\App\Http\Controllers\CarController::class,'car_ride_assign_form'])->name('car-ride-assign');
+    Route::post('/car-ride-assign/{id}',[\App\Http\Controllers\CarController::class,'car_ride_assign'])->name('ride-assign');
     // Ajax for sub category
-    Route::post('/category/{id}/child',[\App\Http\Controllers\CategoryController::class,'getChildByParent']);
+    // Route::post('/category/{id}/child',[\App\Http\Controllers\CategoryController::class,'getChildByParent']);
     // POST category
-    Route::resource('/post-category',\App\Http\Controllers\PostCategoryController::class);
+    // Route::resource('/post-category',\App\Http\Controllers\PostCategoryController::class);
     // Post tag
-    Route::resource('/post-tag',\App\Http\Controllers\PostTagController::class);
+    // Route::resource('/post-tag',\App\Http\Controllers\PostTagController::class);
     // Post
-    Route::resource('/post',\App\Http\Controllers\PostController::class);
+    // Route::resource('/post',\App\Http\Controllers\PostController::class);
     // Message
     // Route::resource('/message',\App\Http\Controllers\MessageController::class);
     // Route::get('/message/five',[\App\Http\Controllers\MessageController::class,'messageFive'])->name('messages.five');
 
     // Order
-    Route::resource('/order',\App\Http\Controllers\OrdersController::class);
+    // Route::resource('/order',\App\Http\Controllers\OrdersController::class);
     // Shipping
-    Route::resource('/shipping',\App\Http\Controllers\ShippingController::class);
+    // Route::resource('/shipping',\App\Http\Controllers\ShippingController::class);
     // Coupon
-    Route::resource('/coupon',\App\Http\Controllers\CouponController::class);
+    // Route::resource('/coupon',\App\Http\Controllers\CouponController::class);
     // Settings
     Route::get('settings',[\App\Http\Controllers\AdminController::class,'settings'])->name('settings');
     Route::post('setting/update',[\App\Http\Controllers\AdminController::class,'settingsUpdate'])->name('settings.update');
