@@ -7,6 +7,7 @@ use App\Http\Controllers\Api\BaseController as BaseController;
 
 use Illuminate\Http\Request;
 use App\Models\User;
+use App\Models\Review;
 // use App\Models\Child;
 use App\Models\Wallet;
 use App\Models\Notification;
@@ -123,12 +124,12 @@ class UserController extends BaseController
 			]);
 			if($validator->fails())
 			{
-				return $this->sendError($validator->errors()->first());
+				return $this->sendError($validator->errors()->first(),500);
 			}
 
 			//return $assign_user_id;
 			$review = Review::create([
-				'ride_id' => $request->quote_id,
+				'ride_id' => $request->ride_id,
 				'user_id' => Auth::user()->id,
 				'rating' => $request->rating,
 				'text' => $request->text,

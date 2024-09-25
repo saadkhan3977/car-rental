@@ -9,6 +9,7 @@ class Review extends Model
 {
     use HasFactory;
     protected $guarded = [];
+    protected $table = 'review';
 
     public function quote_info()
     {
