@@ -35,9 +35,9 @@ class UserController extends BaseController
 			{
 				$data[] = [
 					'id' => $row->id,
-					'title' => $row->data['title'],
-					'description' => $row->data['description'],
-					'created_at' => $row->data['time'],
+					'title' => $row->data,
+					// 'description' => $row->data['description'],
+					// 'created_at' => $row->data['time'],
 					'status' => 'unread'
 				];
 				// $data[] = $row->data;
@@ -109,6 +109,38 @@ class UserController extends BaseController
 		{
 			return response()->json(['error'=>$e->getMessage()]);
 	   	}
+	}
+
+	public function review(Request $request)
+	{
+		try
+		{
+			//return Auth::user()->role;
+			$validator = Validator::make($request->all(),[
+				'ride_id' =>'required',
+				'rating' =>'required',
+				'text' =>'string',
+			]);
+			if($validator->fails())
+			{
+				return $this->sendError($validator->errors()->first());
+			}
+
+			//return $assign_user_id;
+			$review = Review::create([
+				'ride_id' => $request->quote_id,
+				'user_id' => Auth::user()->id,
+				'rating' => $request->rating,
+				'text' => $request->text,
+			]);
+
+			return response()->json(['success'=>true,'message'=>'Review Created Successfully','review'=>$review]);
+
+		}
+		catch(\Exception $e)
+		{
+			return $this->sendError($e->getMessage());
+		}
 	}
 
     public function profile(Request $request)

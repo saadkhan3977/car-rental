@@ -80,7 +80,12 @@ Route::group(['middleware' => ['api','auth:api'], 'prefix' => 'auth'], function 
     // Route::post('user_status',[App\Http\Controllers\Api\UserController::class,'status_update']);
     // Route::get('support',[App\Http\Controllers\Api\UserController::class,'support_list']);
 
+    Route::group(['prefix' => 'rider'], function () {
+        Route::get('ride_update/{rideID}',[App\Http\Controllers\Api\Rider\RideController::class,'update']);
+    });
+
     Route::group(['prefix' => 'customer'], function () {
+        Route::post('review',[App\Http\Controllers\Api\UserController::class,'review']);
         Route::get('journey',[App\Http\Controllers\Api\Customer\BookingController::class,'journey']);
         Route::get('car_list',[App\Http\Controllers\Api\Customer\BookingController::class,'car_list']);
 	//     Route::resource('quote',App\Http\Controllers\Api\Member\QuoteController::class);
@@ -110,7 +115,7 @@ Route::group(['middleware' => ['api','auth:api'], 'prefix' => 'auth'], function 
 	//     Route::post('coverphoto_update',[App\Http\Controllers\Api\UserController::class,'negotiator_coverphoto_update']);
     // });
 
-    // Route::get('notification', [\App\Http\Controllers\Api\UserController::class, 'un_reead_notification']); 
+    Route::get('notification', [\App\Http\Controllers\Api\UserController::class, 'un_reead_notification']); 
     // Route::post('/notification',[\App\Http\Controllers\Api\UserController::class,'read_notification']);
     // Route::post('/checkout', [App\Http\Controllers\Api\OrderController::class, 'store']);
     // Route::get('shipping', [\App\Http\Controllers\Api\ShippingController::class, 'index']); 

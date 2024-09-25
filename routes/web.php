@@ -165,6 +165,7 @@ Route::group(['prefix'=>'admin','middleware'=>['auth','admin']],function(){
     // Notification
     Route::get('/notification/{id}',[\App\Http\Controllers\NotificationController::class,'show'])->name('admin.notification');
     Route::get('/notifications',[\App\Http\Controllers\NotificationController::class,'index'])->name('all.notification');
+    Route::get('/notifications-count',[\App\Http\Controllers\NotificationController::class,'noticount']);
     Route::delete('/notification/{id}',[\App\Http\Controllers\NotificationController::class,'delete'])->name('notification.delete');
     // Password Change
     Route::get('change-password', [\App\Http\Controllers\AdminController::class,'changePassword'])->name('change.password.form');

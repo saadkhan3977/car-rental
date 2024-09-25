@@ -18,12 +18,15 @@ class NotificationController extends Controller
      */
     public function index()
     {
-        $users = User::find(Auth::user()->id);
-        $details=[
-            'title'=>'Admin',
-            'description'=>'New order created',
-        ];
-        \Notification::send($users, new StatusNotification($details));
+        $data['noti'] =  $unreadNotifications = Auth::user()->unreadNotifications;
+        return view('backend.notification',$data);
+    }
+    
+    public function noticount()
+    {
+        $noti =  $unreadNotifications = Auth::user()->unreadNotifications;
+        // return count($noti); 
+        return count($noti);
     }
 
     public function helper()
@@ -58,9 +61,12 @@ class NotificationController extends Controller
      * @param  \App\Models\Notification  $notification
      * @return \Illuminate\Http\Response
      */
-    public function show(Notification $notification)
+    public function show($id)
     {
-        //
+        $notification = Notification::find($id);
+        $notification->update(['read_at' => now()]);
+        return redirect()->to('/admin/car-ride-new');
+        // return $notification;
     }
 
     /**

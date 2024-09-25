@@ -5,7 +5,10 @@ namespace App\Http\Controllers\Api;
 use App\Http\Controllers\Api\BaseController as BaseController;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
+use App\Notifications\RideStatusNotification;
 use App\Models\Ride;
+use App\Models\User;
+use App\Events\RideCreated;
 use Pusher\Pusher;
 use Auth;
 
@@ -14,6 +17,7 @@ class BookRideController extends BaseController
     public function bookRide(Request $request)
     {
         $validator = \Validator::make($request->all(),[
+            'car_id'=>'required',
             'location_from'=>'required',
             'location_to'=>'required',
             'distance'=>'required',
@@ -30,6 +34,7 @@ class BookRideController extends BaseController
 
         $ride = Ride::create([
             'user_id' => Auth::user()->id,
+            'car_id' => $request->car_id,
             'location_from' => $request->location_from,
             'location_to' => $request->location_to,
             'amount' => $request->amount,
@@ -41,10 +46,15 @@ class BookRideController extends BaseController
             'status' => 'pending',
         ]);
 
+        $data = Ride::with('carinfo','rider')->find($ride->id);
+        $data['user_info'] = Auth::user();
         // Send a notification to the user
-        // $this->sendRideNotification($ride);
+        $admin = User::where('role','admin')->first(); // Admin ka user model
+        $admin->notify(new RideStatusNotification($data));
+        // broadcast(new RideCreated($data));
+        // $this->sendRideNotification($data);
 
-        return $this->sendResponse($ride ,'Messages Lists',200);
+        return $this->sendResponse($ride ,'Ride request sent to admin.',200);
 
         // return response()->json([
         //     'message' => 'Ride booked successfully!',
@@ -64,7 +74,7 @@ class BookRideController extends BaseController
             ]
         );
 
-        $data['message'] = 'Your ride from ' . $ride->location_from . ' to ' . $ride->location_to . ' has been booked!';
+        $data['message'] = 'Your ride from ' . $ride->location_from . ' to ' . $ride->location_to . ' has pending!';
         $data['data'] = $ride;
         $pusher->trigger('ride-channel', 'ride-booked', $data);
     }

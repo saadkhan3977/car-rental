@@ -1,31 +1,50 @@
 <nav class="navbar navbar-expand navbar-light bg-white topbar mb-4 static-top shadow">
-
     <!-- Sidebar Toggle (Topbar) -->
     <button id="sidebarToggleTop" class="btn btn-link  rounded-circle mr-3">
       <i class="fa fa-bars"></i>
     </button>
 
-
+<style>
+  .badge {
+  position: absolute;
+  font-size: xx-small;
+  margin-left: -5px;
+  margin-top: -10px;
+  background-color: var(--orange);
+  color: white;
+}
+</style>
     <!-- Topbar Navbar -->
-    <ul class="navbar-nav ml-auto">
+    <!-- <ul id="notifications"> -->
+        <!-- Notifications will appear here -->
+    <!-- </ul> -->
 
+    <ul class="navbar-nav ml-auto">
+    
       <!-- Nav Item - Search Dropdown (Visible Only XS) -->
-      <li class="nav-item dropdown no-arrow d-sm-none">
+      <li class="nav-item dropdown no-arrow d-sm-">
         <a class="nav-link dropdown-toggle" href="#" id="searchDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-          <i class="fas fa-search fa-fw"></i>
+          <i class="fas fa-bell fa-fw"></i>
+          <!-- <span id="notifications-count"></span> -->
+          <span class='badge badge-pill' id="notifications-count"></span>
         </a>
         <!-- Dropdown - Messages -->
         <div class="dropdown-menu dropdown-menu-right p-3 shadow animated--grow-in" aria-labelledby="searchDropdown">
-          <form class="form-inline mr-auto w-100 navbar-search">
-            <div class="input-group">
-              <input type="text" class="form-control bg-light border-0 small" placeholder="Search for..." aria-label="Search" aria-describedby="basic-addon2">
-              <div class="input-group-append">
-                <button class="btn btn-primary" type="button">
-                  <i class="fas fa-search fa-sm"></i>
-                </button>
-              </div>
-            </div>
-          </form>
+        <div class="notification-header">
+            <h3>Notification</h3>
+            <!-- <a href="#" class="clear-all">Clear All</a> -->
+        </div>
+
+        
+        <div class="notification-content" style="width:345px">
+            <ul class="notification-list" id="notifications">
+           
+            </ul>
+        </div>
+
+        <!-- <div class="notification-footer">
+            <a href="#" class="view-all">View All</a>
+        </div> -->
         </div>
       </li>
 

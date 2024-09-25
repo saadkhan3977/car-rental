@@ -9,8 +9,8 @@
          </div>
      </div>
     <div class="card-header py-3">
-      <h6 class="m-0 font-weight-bold text-primary float-left">Car Lists</h6>
-      <a href="{{route('car.create')}}" class="btn btn-primary btn-sm float-right" data-toggle="tooltip" data-placement="bottom" title="Add User"><i class="fas fa-plus"></i> Add Car</a>
+      <h6 class="m-0 font-weight-bold text-primary float-left">Ride Request</h6>
+      <!-- <a href="{{route('car.create')}}" class="btn btn-primary btn-sm float-right" data-toggle="tooltip" data-placement="bottom" title="Add User"><i class="fas fa-plus"></i> Add Car</a> -->
     </div>
     <div class="card-body">
       <div class="table-responsive">
@@ -85,7 +85,7 @@
         </table>
         <span style="float:right">{{$rides->links()}}</span>
         @else
-          <h6 class="text-center">No Car found!!! Please create Car</h6>
+          <h6 class="text-center">No Ride Request found!!!</h6>
         @endif
       </div>
     </div>

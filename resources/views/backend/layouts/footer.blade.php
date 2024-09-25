@@ -58,6 +58,8 @@
 
   @stack('scripts')
 
+
+  
   <script>
     setTimeout(function(){
       $('.alert').slideUp();
