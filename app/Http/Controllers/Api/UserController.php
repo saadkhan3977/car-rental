@@ -118,7 +118,7 @@ class UserController extends BaseController
 		{
 			//return Auth::user()->role;
 			$validator = Validator::make($request->all(),[
-				'ride_id' =>'required',
+				'ride_id' =>'required|exists:rides',
 				'rating' =>'required',
 				'text' =>'string',
 			]);

@@ -44,6 +44,7 @@ Route::group(['middleware' => ['api','auth:api'], 'prefix' => 'auth'], function 
 {
 
     Route::post('/bookride', [App\Http\Controllers\Api\BookRideController::class, 'bookRide']);
+    Route::get('/ride/{rideID}', [App\Http\Controllers\Api\BookRideController::class, 'getbookride']);
     Route::get('wallet',[App\Http\Controllers\Api\UserController::class,'wallet']);
 
     // Route::post('/message', function (Request $request) {

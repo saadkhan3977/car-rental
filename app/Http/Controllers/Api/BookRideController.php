@@ -14,6 +14,13 @@ use Auth;
 
 class BookRideController extends BaseController
 {
+
+    public function getbookride($id)
+    {
+        $ride = Ride::with('rider','carinfo')->find($id);
+        return response()->json(['success'=> true, 'message' => 'Ride Info','ride_info'=>$ride]);
+    }
+
     public function bookRide(Request $request)
     {
         $validator = \Validator::make($request->all(),[
