@@ -82,7 +82,8 @@ Route::group(['middleware' => ['api','auth:api'], 'prefix' => 'auth'], function 
     // Route::get('support',[App\Http\Controllers\Api\UserController::class,'support_list']);
 
     Route::group(['prefix' => 'rider'], function () {
-        Route::get('ride_update/{rideID}',[App\Http\Controllers\Api\Rider\RideController::class,'update']);
+        Route::get('assign-ride',[App\Http\Controllers\Api\Rider\RideController::class,'update']);
+        // Route::get('ride_update/{rideID}',[App\Http\Controllers\Api\Rider\RideController::class,'update']);
     });
 
     Route::group(['prefix' => 'customer'], function () {
