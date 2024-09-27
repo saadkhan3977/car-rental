@@ -4,6 +4,8 @@ namespace App\Http\Controllers\Api\Rider;
 
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
+use App\Models\Ride;
+use Auth;
 
 class RideController extends Controller
 {
