@@ -21,6 +21,7 @@ return new class extends Migration
             $table->string('location_to');
             $table->string('distance');
             $table->string('time')->nullable();
+            $table->text('stops')->nullable();
             $table->string('pickup_location_lat');
             $table->string('pickup_location_lng');
             $table->string('dropoff_location_lat');

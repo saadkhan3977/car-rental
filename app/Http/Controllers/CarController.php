@@ -58,7 +58,7 @@ class CarController extends Controller
         // return $request->all();
         $ride =  Ride::find($id);
         $ride->rider_id = $request->rider_id;
-        $ride->status = 'confirm';
+        $ride->status = 'in process';
         $ride->save();
 
         // $admin->notify(new RideStatusNotification($data));
@@ -69,8 +69,8 @@ class CarController extends Controller
         $rider = User::find($request->rider_id); // rider ka user model
         $rider->notify(new RideStatusNotification($data));
         
-        $user = User::find($ride->user_id); // user ka user model
-        $user->notify(new RideStatusNotification($data));
+        // $user = User::find($ride->user_id); // user ka user model
+        // $user->notify(new RideStatusNotification($data));
 
         // broadcast(new MessageSent((object)$message))->toOthers();
 
