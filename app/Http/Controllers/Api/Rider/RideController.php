@@ -36,7 +36,6 @@ class RideController extends Controller
             $user->lng = $request->lng;
             $user->save();
     
-    
             $customer = User::find($ride->user_id); // user ka user model
             $customer->notify(new RideStatusNotification($ride));
     
