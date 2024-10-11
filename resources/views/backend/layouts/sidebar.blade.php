@@ -49,6 +49,20 @@
           </div>
         </div>
     </li>
+    
+    <li class="nav-item">
+        <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#tCollapse" aria-expanded="true" aria-controls="tCollapse">
+          <i class="fas fa-cubes"></i>
+          <span>Prices</span>
+        </a>
+        <div id="tCollapse" class="collapse" aria-labelledby="headingTwo" data-parent="#accordionSidebar">
+          <div class="bg-white py-2 collapse-inner rounded">
+            <h6 class="collapse-header">Options</h6>
+            <a class="collapse-item" href=" {{ route('city_price.index') }}">View </a>
+            <a class="collapse-item" href="{{ route('city_price.create') }}">Add</a>
+          </div>
+        </div>
+    </li>
 
     <!-- Divider -->
     <hr class="sidebar-divider">
