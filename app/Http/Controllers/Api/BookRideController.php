@@ -39,22 +39,21 @@ class BookRideController extends BaseController
         if($validator->fails()) {
             return response()->json(['success'=>false,'message'=>$validator->errors()],500);    
         }
-        $cityprice = CityPrice::where('city_from',$request->location_from)->where('city_to',$request->location_to)->first();
-        if($cityprice)
-        {
-            $price = $cityprice->price;
-        } 
-        else
-        {
-            $price = $request->amount;
-        }
+        // if($cityprice)
+        // {
+        //     $price = $cityprice->price;
+        // } 
+        // else
+        // {
+        //     $price = $request->amount;
+        // }
 
         $ride = Ride::create([
             'user_id' => Auth::user()->id,
             'car_id' => $request->car_id,
             'location_from' => $request->location_from,
             'location_to' => $request->location_to,
-            'amount' => $price,
+            'amount' => $request->amount,
             'distance' => $request->distance,
             'pickup_location_lat' => $request->pickup_location_lat,
             'pickup_location_lng' => $request->pickup_location_lng,

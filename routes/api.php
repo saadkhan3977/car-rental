@@ -80,6 +80,7 @@ Route::group(['middleware' => ['api','auth:api'], 'prefix' => 'auth'], function 
     // Route::post('support',[App\Http\Controllers\Api\UserController::class,'support']);
     // Route::post('user_status',[App\Http\Controllers\Api\UserController::class,'status_update']);
     // Route::get('support',[App\Http\Controllers\Api\UserController::class,'support_list']);
+    Route::get('/city_price',[\App\Http\Controllers\CityPriceController::class,'fetch_price']);
 
     Route::group(['prefix' => 'rider'], function () {
         Route::get('assign-ride',[App\Http\Controllers\Api\Rider\RideController::class,'index']);

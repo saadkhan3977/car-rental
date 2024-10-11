@@ -12,6 +12,14 @@ class CityPriceController extends Controller
         $CityPrices = CityPrice::all();
         return view('backend.city_price.index', compact('CityPrices'));
     }
+    
+    public function fetch_price(Request $request)
+    {
+        // $CityPrices = CityPrice::where();
+        $cityprice = CityPrice::where('city_from',$request->cityFrom)->where('city_to',$request->cityTo)->first();
+
+        return response()->json(['success' => true,'message'=> 'City Price','data'=>$cityprice->price]);
+    }
 
     public function create()
     {
