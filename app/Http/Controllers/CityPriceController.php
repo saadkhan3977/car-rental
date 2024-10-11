@@ -18,7 +18,7 @@ class CityPriceController extends Controller
         // $CityPrices = CityPrice::where();
         $cityprice = CityPrice::where('city_from',$request->cityFrom)->where('city_to',$request->cityTo)->first();
 
-        return response()->json(['success' => true,'message'=> 'City Price','data'=>$cityprice->price]);
+        return response()->json(['success' => true,'message'=> 'City Price','data'=>$cityprice]);
     }
 
     public function create()
