@@ -18,7 +18,9 @@ class BookRideController extends BaseController
 
     public function getbookride($id)
     {
-        $ride = Ride::with('rider','carinfo')->find($id);
+        $ride = Ride::withCount('ride')->with('rider','carinfo','rider.review')->find($id);
+        $ride->rider->rating = $ride->rider->review()->avg('rating'); // Assuming the column is 'rating'
+
         return response()->json(['success'=> true, 'message' => 'Ride Info','ride_info'=>$ride]);
     }
 

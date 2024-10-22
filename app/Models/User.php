@@ -47,9 +47,9 @@ class User extends Authenticatable
         return $this->hasOne(Wallet::class,'user_id','id');
     }
 
-    public function total_document()
+    public function review()
     {
-        return $this->hasMany(Document::class,'user_id','id');
+        return $this->hasMany(Review::class,'user_id','id');
     }
 
     public function document_pdf()
