@@ -24,25 +24,7 @@ class MessageSent implements ShouldBroadcast
 
     public function broadcastOn()
     {
-        // print_r(Auth::user()->id);die;
-        $chat = Conversation::where('chat_id',request()->chat_id)->where('user_id',Auth::user()->id)->orwhere('target_id',Auth::user()->id)->first();
-        // print_r($chat);die;
-        if(!$chat)
-        {
-            Conversation::create([
-                'chat_id' => request()->chat_id,
-                'user_id' => Auth::user()->id,
-                'target_id' => request()->target_id,
-            ]);
-
-        }
-        Message::create([
-            'chat_id' => request()->chat_id,
-            'user_id' => Auth::user()->id,
-            'target_id' => request()->target_id,
-            'text' => request()->text
-        ]);
-        return new PrivateChannel('chat.' . $this->message->chat_id);
+        return ['my-channel-'.$this->message->chat_id];
     }
 
     public function broadcastWith()

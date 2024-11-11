@@ -63,9 +63,9 @@ Route::group(['middleware' => ['api','auth:api'], 'prefix' => 'auth'], function 
     //     return response()->json(['status' => 'Message broadcasted']);
     // });
 
-	// Route::POST('send_message',[App\Http\Controllers\Api\MessageController::class,'sendMessage']);
+	Route::POST('send_message',[App\Http\Controllers\Api\MessageController::class,'sendMessage']);
 	// Route::get('chat_list',[App\Http\Controllers\Api\MessageController::class,'chat_list']);
-	// Route::get('message_list/{id}',[App\Http\Controllers\Api\MessageController::class,'message_list']);
+	Route::get('message_list',[App\Http\Controllers\Api\MessageController::class,'message_list']);
 	// Route::get('product',[App\Http\Controllers\Api\ProductController::class,'index']);
     Route::post('profile', [\App\Http\Controllers\Api\UserController::class, 'profile']);  
 	// Route::resource('document',App\Http\Controllers\Api\DocumentController::class);

@@ -20,27 +20,34 @@ class RideController extends Controller
     public function rider_ride_update(Request $request,$id)
     {
         $ride = Ride::with('carinfo','rider')->find($id);
-        $ride->status = $request->status;
-        $ride->save();
+        if($ride)
+        {
 
-        if($request->status == 'reject')
-        {
-            $admin = User::where('role','admin')->first(); // Admin ka user model
-            $admin->notify(new RideStatusNotification($ride));
-            return response()->json(['success'=> true,'message'=>'Ride Update','ride_info'=>$ride],200);
+            $ride->status = $request->status;
+            $ride->save();
+            if($request->status == 'reject')
+            {
+                $admin = User::where('role','admin')->first(); // Admin ka user model
+                $admin->notify(new RideStatusNotification($ride));
+                return response()->json(['success'=> true,'message'=>'Ride Update','ride_info'=>$ride],200);
+            }
+            else
+            {
+                $user = User::find(Auth::user()->id);
+                $user->lat = $request->lat;
+                $user->lng = $request->lng;
+                $user->save();
+        
+                $customer = User::find($ride->user_id); // user ka user model
+                $customer->notify(new RideStatusNotification($ride));
+        
+                return response()->json(['success'=> true,'message'=>'Ride Update','ride_info'=>$ride],200);
+            }
+        } else{
+            
+            return response()->json(['success'=> false,'message'=>'No Ride Found.'],404);
         }
-        else
-        {
-            $user = User::find(Auth::user()->id);
-            $user->lat = $request->lat;
-            $user->lng = $request->lng;
-            $user->save();
-    
-            $customer = User::find($ride->user_id); // user ka user model
-            $customer->notify(new RideStatusNotification($ride));
-    
-            return response()->json(['success'=> true,'message'=>'Ride Update','ride_info'=>$ride],200);
-        }
+
 
     }
 }

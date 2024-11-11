@@ -17,6 +17,7 @@ use Illuminate\Support\Facades\Broadcast;
 //     return (int) $user->id === (int) $id;
 // });
 
-Broadcast::channel('ride-channel', function ($user) {
-    return true;
+Broadcast::channel('my-channel-{chatId}', function ($user, $chatId) {
+    \Log::info('User subscribing to chat channel: ' . $chatId, ['user_id' => $user->id]);
+    return true; // or your authorization logic
 });
