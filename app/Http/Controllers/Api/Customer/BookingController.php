@@ -17,7 +17,7 @@ class BookingController extends BaseController
         $data['rides'] = Ride::with('rider')->where('user_id',Auth::user()->id)->where('status','complete')->get();
         return $this->sendResponse($data, 'My Journey Lists');
     }
-    
+
     public function car_list()
     {
         $data = Car::where('status','active')->get();

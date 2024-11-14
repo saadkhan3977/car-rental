@@ -35,8 +35,8 @@ Route::get('vendor/login',[LoginController::class,'vendor_login'])->name('vendor
 Route::post('vendor/login',[LoginController::class,'vendor_login_submit'])->name('vendor.login');
 Route::post('vendor/register',[FrontendController::class,'vendorregisterSubmit'])->name('vendor_register.submit');
 // Reset password
-// Route::post('password-reset', [FrontendController::class,'showResetForm'])->name('password.reset'); 
-// Socialite 
+// Route::post('password-reset', [FrontendController::class,'showResetForm'])->name('password.reset');
+// Socialite
 Route::get('login/{provider}/', [\App\Http\Controllers\Auth\LoginController::class,'redirect'])->name('login.redirect');
 Route::get('login/{provider}/callback/', [\App\Http\Controllers\Auth\LoginController::class,'Callback'])->name('login.callback');
 
@@ -103,7 +103,7 @@ Route::get('/',[FrontendController::class,'home'])->name('home');
 // // Route::post('product/{slug}/review',[\App\Http\Controllers\ProductReviewController::class,'store'])->name('review.store');
 // Route::post('vendor/{slug}/review',[\App\Http\Controllers\ProductReviewController::class,'vendor_store'])->name('vendor_review.store');
 
-// // Post Comment 
+// // Post Comment
 // Route::post('post/{slug}/comment',[\App\Http\Controllers\PostCommentController::class,'store'])->name('post-comment.store');
 // Route::resource('/comment',\App\Http\Controllers\PostCommentController::class);
 // // Coupon
@@ -119,10 +119,11 @@ Route::get('/',[FrontendController::class,'home'])->name('home');
 
 Route::group(['prefix'=>'admin','middleware'=>['auth','admin']],function(){
     Route::get('/dashboard',[\App\Http\Controllers\AdminController::class,'index'])->name('admin.dashboard');
-    
-   
+
+
     // user route
     Route::resource('users',\App\Http\Controllers\UsersController::class);
+    Route::resource('reasons', \App\Http\Controllers\Admin\ReasonController::class);
     // vendor route
     //Route::resource('vendors',\App\Http\Controllers\VendorsController::class);
     // Banner
@@ -199,28 +200,28 @@ Route::group(['prefix'=>'admin','middleware'=>['auth','admin']],function(){
 // User section start
 Route::group(['prefix'=>'/user','middleware'=>['auth','user']],function(){
     Route::get('/dashboard',[\App\Http\Controllers\HomeController::class,'index'])->name('user');
-    
+
     // Profile
      Route::get('/profile',[\App\Http\Controllers\HomeController::class,'profile'])->name('user-profile');
      Route::post('/profile/{id}',[\App\Http\Controllers\HomeController::class,'profileUpdate'])->name('user-profile-update');
-    
+
      //  Order
     Route::get('/order',[\App\Http\Controllers\HomeController::class,'orderIndex'])->name('user.order.index');
     Route::get('/order/show/{id}',[\App\Http\Controllers\HomeController::class,"orderShow"])->name('user.order.show');
     Route::delete('/order/delete/{id}',[\App\Http\Controllers\HomeController::class,'userOrderDelete'])->name('user.order.delete');
-    
+
     // Product Review
     Route::get('/user-review',[\App\Http\Controllers\HomeController::class,'productReviewIndex'])->name('user.productreview.index');
     Route::delete('/user-review/delete/{id}',[\App\Http\Controllers\HomeController::class,'productReviewDelete'])->name('user.productreview.delete');
     Route::get('/user-review/edit/{id}',[\App\Http\Controllers\HomeController::class,'productReviewEdit'])->name('user.productreview.edit');
     Route::patch('/user-review/update/{id}',[\App\Http\Controllers\HomeController::class,'productReviewUpdate'])->name('user.productreview.update');
-    
+
     // Post comment
     Route::get('user-post/comment',[\App\Http\Controllers\HomeController::class,'userComment'])->name('user.post-comment.index');
     Route::delete('user-post/comment/delete/{id}',[\App\Http\Controllers\HomeController::class,'userCommentDelete'])->name('user.post-comment.delete');
     Route::get('user-post/comment/edit/{id}',[\App\Http\Controllers\HomeController::class,'userCommentEdit'])->name('user.post-comment.edit');
     Route::patch('user-post/comment/udpate/{id}',[\App\Http\Controllers\HomeController::class,'userCommentUpdate'])->name('user.post-comment.update');
-    
+
     // Password Change
     // Route::get('change-password', [\App\Http\Controllers\HomeController::class,'changePassword'])->name('user.change.password.form');
     // Route::post('change-password', [\App\Http\Controllers\HomeController::class,'changPasswordStore'])->name('change.password');

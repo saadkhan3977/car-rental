@@ -9,7 +9,7 @@ use Illuminate\Http\Request;
 use App\Models\User;
 use App\Models\Review;
 // use App\Models\Child;
-use App\Models\Wallet;
+use App\Models\Reason;
 use App\Models\Notification;
 use Image;
 use File;
@@ -22,13 +22,27 @@ class UserController extends BaseController
 		$stripe = \Stripe\Stripe::setApiKey(env('STRIPE_SECRET'));
     }
 
+    public function reason_list(Request $request)
+	{
+		try
+		{
+			$reasons = Reason::get();
+			return response()->json(['success'=>true,'message'=>'Reason Lists','reson_list'=>$reasons]);
+
+		}
+		catch(\Exception $e)
+		{
+			return $this->sendError($e->getMessage());
+		}
+	}
+
 	public function un_reead_notification()
 	{
 		$notification = Auth::user()->unreadNotifications;
 		$notificationold = Auth::user()->readNotifications;
-		$unread = count(Auth::user()->unreadNotifications); 
-		$read = count(Auth::user()->readNotifications); 
-		// return $notification[0]->data['title']; 
+		$unread = count(Auth::user()->unreadNotifications);
+		$read = count(Auth::user()->readNotifications);
+		// return $notification[0]->data['title'];
 		$data = null;
 		if($notification)
 		{
@@ -44,7 +58,7 @@ class UserController extends BaseController
 				// $data[] = $row->data;
 			}
 		}
-			
+
 		$olddata = null;
 		if($notificationold){
 
@@ -61,20 +75,20 @@ class UserController extends BaseController
 		}
 		return response()->json(['success'=>true,'unread'=> $unread,'read'=> $read,'notification' => $data]);
 	}
-	
-	public function wallet()
-	{
-		try
-		{
-			$wallet = Wallet::where('user_id',Auth::user()->id)->first();
-			return response()->json(['success'=>true,'message'=> 'My Wallet','wallet' => $wallet],200);
-		}
-		catch(\Eception $e)
-		{
-			return response()->json(['error'=>$e->getMessage()]);
-	   	}
-	}
-	
+
+	// public function wallet()
+	// {
+	// 	try
+	// 	{
+	// 		$wallet = Wallet::where('user_id',Auth::user()->id)->first();
+	// 		return response()->json(['success'=>true,'message'=> 'My Wallet','wallet' => $wallet],200);
+	// 	}
+	// 	catch(\Eception $e)
+	// 	{
+	// 		return response()->json(['error'=>$e->getMessage()]);
+	//    	}
+	// }
+
 	public function read_notification(Request $request)
 	{
 		try{
@@ -159,15 +173,15 @@ class UserController extends BaseController
 			if($validator->fails())
 			{
 				return $this->sendError($validator->errors()->first());
-	
+
 			}
 			$profile = $olduser->photo;
-			
-			if($request->hasFile('photo')) 
+
+			if($request->hasFile('photo'))
 			{
 				$file = request()->file('photo');
 				$fileName = md5($file->getClientOriginalName() . time()) . "Robert-Kramer." . $file->getClientOriginalExtension();
-				$file->move('uploads/user/profiles/', $fileName);  
+				$file->move('uploads/user/profiles/', $fileName);
 				$profile = 'uploads/user/profiles/'.$fileName;
 			}
 			$olduser->name = $request->name;
@@ -185,15 +199,15 @@ class UserController extends BaseController
 		catch(\Eception $e)
 		{
 			return $this->sendError($e->getMessage());
-		}        
-   
+		}
+
     }
 	public function current_plan(Request $request)
 	{
 		try{
 		//$user= User::findOrFail(Auth::id());
 		$user = User::with(['child','goal','temporary_wallet','wallet','payments'])->where('id',Auth::user()->id)->first();
-		
+
 		$amount = 100;
 		$charge = \Stripe\Charge::create([
 			'amount' => $amount,
@@ -201,7 +215,7 @@ class UserController extends BaseController
 			'customer' => $user->stripe_id,
 		]);
 		if($request->current_plan == 'basic')
-		{		
+		{
 			$user->update(['current_plan' =>"premium",'card_change_limit'=>'1','created_plan'=> \Carbon\Carbon::now()]);
 			return response()->json(['success'=>true,'message'=>'Current Plan Updated Successfully','user_info'=>$user,'payment' => $charge]);
 
@@ -209,7 +223,7 @@ class UserController extends BaseController
 		elseif($request->current_plan == 'premium')
 		{
 			$user->update(['current_plan' =>"basic",'card_change_limit'=>'0','created_plan'=> \Carbon\Carbon::now()]);
-		
+
 		 return response()->json(['success'=>true,'message'=>'Current Plan Updated Successfully','user_info'=>$user]);
 		}
 		else
@@ -221,8 +235,8 @@ class UserController extends BaseController
 	  return $this->sendError($e->getMessage());
 
 		}
-		
+
 	}
 
-    
+
 }
