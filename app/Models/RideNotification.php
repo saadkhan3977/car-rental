@@ -9,4 +9,5 @@ class RideNotification extends Model
 {
     use HasFactory;
     protected $guarded = [];
+    protected $table = 'ride_notifications';
 }

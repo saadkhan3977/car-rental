@@ -6,7 +6,6 @@ use App\Http\Controllers\Api\BaseController as BaseController;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use App\Notifications\RideStatusNotification;
-use App\Models\Notification;
 use App\Models\Ride;
 use App\Models\User;
 use App\Events\RideCreated;
@@ -40,18 +39,18 @@ class BookRideController extends BaseController
     {
         $ride = Ride::withCount('ride')->with('rider','carinfo','rider.review')->find($id);
 
+
         $user = User::find($ride->user_id);
-        $title = 'Rider Waiting';
-        $body = $user->first_name . ' ' . $user->last_name .' Your ride has arrived at your location.';
-        $fcmToken = $user->device_token;
-        $response = $this->firebaseService->sendNotification($fcmToken, $title, $body);
-        Notification::create([
-            'user_id' =>  $user->id,
-            'rider_id' =>  $ride->rider_id,
-            'ride_id' =>  $id,
-            'title' => $title,
-            'body' => $body,
-        ]);
+
+        $rider = User::find($ride->rider_id); // rider ka user model
+        $ride['title'] = 'Rider Waiting';
+        $ride['body'] = $user->first_name . ' ' . $user->last_name .' Your ride has arrived at your location.';
+
+        $rider->notify(new RideStatusNotification($ride));
+
+        // $title = 'Rider Waiting';
+        // $fcmToken = $user->device_token;
+        // $response = $this->firebaseService->sendNotification($fcmToken, $title, $body);
 
         return response()->json(['success'=> true, 'message' => 'Ride Info','ride_info'=>$ride]);
     }
@@ -96,21 +95,11 @@ class BookRideController extends BaseController
             'status' => 'pending',
         ]);
 
-        $ride = Ride::with('carinfo','rider')->find($ride->id);
+        $data = Ride::with('carinfo','rider')->find($ride->id);
         $data['user_info'] = Auth::user();
         // Send a notification to the user
         $admin = User::where('role','admin')->first(); // Admin ka user model
-        $admin->notify(new RideStatusNotification($ride));
-        $title = 'New Ride Request';
-        $body = 'From ' . $ride->from . ' to ' . $ride->to;
-
-        Notification::create([
-            'user_id' =>  $admin->id,
-            'rider_id' =>  $ride->rider_id,
-            'ride_id' =>  $ride->id,
-            'title' => $title,
-            'body' => $body,
-        ]);
+        $admin->notify(new RideStatusNotification($data));
         // broadcast(new RideCreated($data));
         // $this->sendRideNotification($data);
 

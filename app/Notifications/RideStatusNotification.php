@@ -11,10 +11,14 @@ class RideStatusNotification extends Notification
     use Queueable;
 
     public $rideData;
+    public $title;
+    public $body;
 
     public function __construct($rideData)
     {
         $this->rideData = $rideData;
+        $this->title = $rideData['title'];
+        $this->body = $rideData['body'];
     }
 
     public function via($notifiable)
@@ -24,7 +28,7 @@ class RideStatusNotification extends Notification
 
     public function toBroadcast($notifiable)
     {
-    
+
         return new BroadcastMessage([
             'rideData' => $this->rideData,
         ]);
@@ -33,6 +37,8 @@ class RideStatusNotification extends Notification
     public function toArray($notifiable)
     {
         return [
+            'title' => $this->title,
+            'body' => $this->body,
             'rideData' => $this->rideData
         ];
     }
