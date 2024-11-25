@@ -99,6 +99,10 @@ class BookRideController extends BaseController
         $data['user_info'] = Auth::user();
         // Send a notification to the user
         $admin = User::where('role','admin')->first(); // Admin ka user model
+
+        $ride['title'] = 'New Ride Request';
+        $ride['body'] = $admin->first_name . ' ' . $admin->last_name .' New Ride Request.';
+
         $admin->notify(new RideStatusNotification($data));
         // broadcast(new RideCreated($data));
         // $this->sendRideNotification($data);
