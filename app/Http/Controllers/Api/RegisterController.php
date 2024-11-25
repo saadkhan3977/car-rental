@@ -17,7 +17,7 @@ use Validator;
 use App\Mail\SendVerifyCode;
 use Mail;
 use Carbon\Carbon;
-use Twilio\Rest\Client; 
+use Twilio\Rest\Client;
 use Hash;
 use Image;
 use File;
@@ -30,34 +30,34 @@ class RegisterController extends BaseController
     {
         return User::with('wallet')->where('email', $email)->first();
     }
-    
 
     public function register(Request $request)
     {
 		$validator = Validator::make($request->all(), [
+            'device_token' => 'required',
             'name' => 'required|string',
-            'email' => 'required|email|unique:users',			
-            'phone' => 'required',			
+            'email' => 'required|email|unique:users',
+            'phone' => 'required',
             'password' => 'required|min:8',
             'confirm_password' => 'required|same:password',
 			'photo' => 'image|mimes:jpeg,png,jpg,bmp,gif,svg|max:2048',
-        ]);      
+        ]);
         if($validator->fails())
         {
 		    return $this->sendError($validator->errors()->first());
         }
 		$fileName = null;
-        if($request->hasFile('photo')) 
+        if($request->hasFile('photo'))
         {
             $file = request()->file('photo');
             $fileName = md5($file->getClientOriginalName() . time()) . '.' . $file->getClientOriginalExtension();
-            $file->move('uploads/user/profiles/', $fileName);  
+            $file->move('uploads/user/profiles/', $fileName);
             $profile = asset('uploads/user/profiles/'.$fileName);
         }
 
         $input = $request->except(['confirm_password'],$request->all());
         $input['password'] = bcrypt($input['password']);
-        
+
         $input['photo'] = '/uploads/user/profiles/'.$fileName;//$profile;
 		$input['email_verified_at'] = Carbon::now();
         $user = User::create($input);
@@ -73,31 +73,31 @@ class RegisterController extends BaseController
     }
 
     public function login(Request $request)
-    {   
+    {
         if(!empty($request->email) || !empty($request->password))
         {
             $validator = Validator::make($request->all(), [
                 'email' => 'required|email|exists:users',
-                'password' => 'required',        
-            ]);  
+                'password' => 'required',
+            ]);
             if($validator->fails())
             {
 				return $this->sendError($validator->errors()->first());
             }
 
             $user = User::firstWhere('email',$request->email);
-            
+
             if(Auth::attempt(['email' => $request->email, 'password' => $request->password]))
-            { 
+            {
                 $user = Auth::user();
-                $token =  $user->createToken('app_api')->plainTextToken; 
+                $token =  $user->createToken('app_api')->plainTextToken;
                 $users = $this->userinfo($request->email);
                 return response()->json(['success'=>true,'message'=>'User Logged In successfully' ,'token'=>$token,'user_info'=>$users]);
-            } 
+            }
             else
-            { 
+            {
                 return $this->sendError('Incorrect Password');
-            } 
+            }
         }
         else
         {
@@ -107,16 +107,17 @@ class RegisterController extends BaseController
 
     public function me()
     {
-        $user = User::with(['child','goal','temporary_wallet','wallet','payments'])->where('id',Auth::user()->id)->first(); 
+        $user = User::with(['child','goal','temporary_wallet','wallet','payments'])->where('id',Auth::user()->id)->first();
         return response()->json(['success'=>true,'message'=>'User Fetch successfully','user_info'=>$user]);
     }
+
     public function logout()
     {
         if(Auth::check())
         {
             $user = Auth::user()->token();
             $user->revoke();
-            $success['success'] =true; 
+            $success['success'] =true;
             return $this->sendResponse($success, 'User Logout successfully.');
         }
         else
@@ -124,6 +125,7 @@ class RegisterController extends BaseController
             return $this->sendError('No user in Session .');
         }
     }
+
     public function user(Request $request)
     {
         if(Auth::check())
@@ -136,12 +138,13 @@ class RegisterController extends BaseController
             return $this->sendError('No user in Session .');
         }
     }
+
     public function verify(Request $request)
     {
 		$validator = Validator::make($request->all(),['email_code'=>'required']);
         if($validator->fails())
         {
-            return $this->sendError($validator->errors()->first());       
+            return $this->sendError($validator->errors()->first());
         }
 
         $user = User::firstWhere('email_code',$request->email_code);
@@ -152,15 +155,16 @@ class RegisterController extends BaseController
         else
         {
             $user->update(['email_verified_at'=>Carbon::now(),'email_code'=>null]);
-            $success['success'] =true; 
+            $success['success'] =true;
             return $this->sendResponse($success, 'Email verified Successfully');
         }
     }
+
     public function change_password(Request $request)
     {
         try
         {
-                                          
+
             $validator = Validator::make($request->all(),[
                 'current_password' => 'required',
                 'new_password' => 'required|same:confirm_password|min:8',
@@ -169,11 +173,11 @@ class RegisterController extends BaseController
 
             if($validator->fails())
             {
-                return $this->sendError($validator->errors()->first());       
+                return $this->sendError($validator->errors()->first());
             }
             $user = Auth::user();
 
-            if (!Hash::check($request->current_password,$user->password)) 
+            if (!Hash::check($request->current_password,$user->password))
             {
                 return $this->sendError('Current Password Not Matched');
             }
@@ -184,14 +188,12 @@ class RegisterController extends BaseController
         }
         catch(\Eception $e)
         {
-            return $this->sendError($e->getMessage());    
+            return $this->sendError($e->getMessage());
         }
-    }   
+    }
 
     public function noauth()
     {
 	    return $this->sendError('session destroyed , Login to continue!');
 	}
-	
-
 }

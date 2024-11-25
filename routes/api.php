@@ -43,6 +43,7 @@ Route::post('password/code/check', [\App\Http\Controllers\Api\CodeCheckControlle
 Route::group(['middleware' => ['api','auth:api'], 'prefix' => 'auth'], function ()
 {
 
+    Route::post('/rider-arrived/{rideid}', [App\Http\Controllers\Api\BookRideController::class, 'rider_arrived']);
     Route::post('/bookride', [App\Http\Controllers\Api\BookRideController::class, 'bookRide']);
     Route::get('/ride/{rideID}', [App\Http\Controllers\Api\BookRideController::class, 'getbookride']);
     Route::get('wallet',[App\Http\Controllers\Api\UserController::class,'wallet']);

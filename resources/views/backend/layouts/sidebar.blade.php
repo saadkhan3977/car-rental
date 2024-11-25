@@ -17,7 +17,7 @@
         <i class="fas fa-fw fa-tachometer-alt"></i>
         <span>Dashboard</span></a>
     </li>
-    
+
     <!-- Divider -->
     <hr class="sidebar-divider">
     {{-- Cars --}}
@@ -49,7 +49,7 @@
           </div>
         </div>
     </li>
-    
+
     <li class="nav-item">
         <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#tCollapse" aria-expanded="true" aria-controls="tCollapse">
           <i class="fas fa-cubes"></i>
@@ -64,39 +64,53 @@
         </div>
     </li>
 
+    <li class="nav-item">
+        <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#reasons" aria-expanded="true" aria-controls="tCollapse">
+          <i class="fas fa-cubes"></i>
+          <span>Reasons</span>
+        </a>
+        <div id="reasons" class="collapse" aria-labelledby="headingTwo" data-parent="#accordionSidebar">
+          <div class="bg-white py-2 collapse-inner rounded">
+            <h6 class="collapse-header">Options</h6>
+            <a class="collapse-item" href=" {{ route('reasons.index') }}">View </a>
+            <a class="collapse-item" href="{{ route('reasons.create') }}">Add</a>
+          </div>
+        </div>
+    </li>
+
     <!-- Divider -->
     <hr class="sidebar-divider">
         <!-- Heading -->
 
 
-   
-    
+
+
      <!-- Users -->
      <li class="nav-item">
         <a class="nav-link" href="{{route('users.index')}}">
             <i class="fas fa-users"></i>
             <span>Users </span></a>
     </li>
-   
+
      <!-- General settings -->
      <li class="nav-item">
         <a class="nav-link" href="{{route('settings')}}">
             <i class="fas fa-cog"></i>
             <span>Settings</span></a>
     </li>
-     
+
   @endif
 
-    
-    
 
-    
 
-   
-    
+
+
+
+
+
 
     <!-- Divider -->
-    
+
 
     <!-- Sidebar Toggler (Sidebar) -->
     <div class="text-center d-none d-md-inline">

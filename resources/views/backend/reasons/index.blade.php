@@ -5,7 +5,7 @@
 <div class="card">
     <h5 class="card-header">Reason List</h5>
     <div class="card-body">
-<a href="{{ route('reasons.create') }}" class="btn btn-primary">Add New Reason</a>
+<a href="{{ route('reasons.create') }}" class="btn btn-primary">Add New Reason</a><br>
 <table class="table table-border">
     <thead>
         <tr>
