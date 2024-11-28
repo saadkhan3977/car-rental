@@ -64,15 +64,11 @@ class CarController extends Controller
 
     public function car_ride_assign($id,Request $request)
     {
-        // return $request->rider_id;
-        // return $request->all();
         $ride =  Ride::find($id);
         $ride->rider_id = $request->rider_id;
         $ride->status = 'in process';
         $ride->save();
 
-        // $admin->notify(new RideStatusNotification($data));
-        // $this->sendRideNotification($ride);
 
         $data = Ride::with('carinfo','rider')->find($id);
 
@@ -83,16 +79,6 @@ class CarController extends Controller
         $fcmToken = $rider->device_token;
         $response = $this->firebaseService->sendNotification($fcmToken, $title, $body);
 
-
-        // $rider->notify(new RideStatusNotification($data));
-
-        // $user = User::find($ride->user_id); // user ka user model
-        // $user->notify(new RideStatusNotification($data));
-
-        // broadcast(new MessageSent((object)$message))->toOthers();
-
-        // $data['cars'] = Car::get();
-        // $data['riders'] = User::where('role','rider')->where('assign','no')->get();
         return redirect('admin/car-ride-new')->with('success' , 'Ride Assign Successfully');
     }
 

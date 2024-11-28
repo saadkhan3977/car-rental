@@ -40,13 +40,21 @@ class BookRideController extends BaseController
         $ride = Ride::withCount('ride')->with('rider','carinfo','rider.review')->find($id);
 
 
-        $user = User::find($ride->user_id);
+        // $user = User::find($ride->user_id);
 
-        $rider = User::find($ride->rider_id); // rider ka user model
-        $ride['title'] = 'Rider Waiting';
-        $ride['body'] = $user->first_name . ' ' . $user->last_name .' Your ride has arrived at your location.';
+        // $rider = User::find($ride->rider_id); // rider ka user model
+        // $ride['title'] = 'Rider Waiting';
+        // $ride['body'] = $user->first_name . ' ' . $user->last_name .' Your ride has arrived at your location.';
 
-        $rider->notify(new RideStatusNotification($ride));
+        // $rider->notify(new RideStatusNotification($ride));
+
+
+        $user = User::find($ride->user_id); // rider ka user model
+
+        $body = $user->first_name . ' ' . $user->last_name .' Your ride has arrived at your location.';
+        $title = request()->text;
+        $fcmToken = $user->device_token;
+        $response = $this->firebaseService->sendNotification($fcmToken, $title, $body);
 
         // $title = 'Rider Waiting';
         // $fcmToken = $user->device_token;

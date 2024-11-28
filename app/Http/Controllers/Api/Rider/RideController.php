@@ -16,7 +16,7 @@ class RideController extends Controller
         $ride = Ride::with('carinfo','user')->where('status','in process')->where('rider_id',Auth::user()->id)->first();
         return response()->json(['success'=> true,'message'=>'Ride Info','ride_info'=>$ride],200);
     }
-    
+
     public function rider_ride_update(Request $request,$id)
     {
         $ride = Ride::with('carinfo','rider')->find($id);
@@ -29,6 +29,7 @@ class RideController extends Controller
             {
                 $admin = User::where('role','admin')->first(); // Admin ka user model
                 $admin->notify(new RideStatusNotification($ride));
+
                 return response()->json(['success'=> true,'message'=>'Ride Update','ride_info'=>$ride],200);
             }
             else
@@ -37,14 +38,20 @@ class RideController extends Controller
                 $user->lat = $request->lat;
                 $user->lng = $request->lng;
                 $user->save();
-        
+
                 $customer = User::find($ride->user_id); // user ka user model
-                $customer->notify(new RideStatusNotification($ride));
-        
+                // $customer->notify(new RideStatusNotification($ride));
+                // $rider = User::find($request->rider_id); // rider ka user model
+
+                $body = Auth::user()->first_name . ' ' . Auth::user()->last_name .' Assign Accept Your Ride Request';
+                $title = request()->text;
+                $fcmToken = $customer->device_token;
+                $response = $this->firebaseService->sendNotification($fcmToken, $title, $body);
+
                 return response()->json(['success'=> true,'message'=>'Ride Update','ride_info'=>$ride],200);
             }
         } else{
-            
+
             return response()->json(['success'=> false,'message'=>'No Ride Found.'],404);
         }
 
