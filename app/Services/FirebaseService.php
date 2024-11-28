@@ -20,7 +20,7 @@ class FirebaseService
     public function sendNotification($fcmToken, $title, $body)
     {
         // Get the OAuth 2.0 token
-        $url = 'https://fcm.googleapis.com/v1/projects/push-notification-9857c/messages:send'; // Replace with your project ID
+        $url = 'https://fcm.googleapis.com/v1/projects/robert-kramer-41dd3/messages:send'; // Replace with your project ID
         $accessToken = $this->getAccessToken();
 
         // Sending the request with the Guzzle HTTP Client
