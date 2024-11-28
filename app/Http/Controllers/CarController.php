@@ -9,6 +9,7 @@ use App\Models\User;
 use Pusher\Pusher;
 use App\Events\RideStatus;
 use App\Notifications\RideStatusNotification;
+use App\Services\FirebaseService;
 
 // use App\Models\Category;
 // use App\Models\PostTag;
@@ -18,6 +19,14 @@ use Illuminate\Support\Str;
 
 class CarController extends Controller
 {
+
+    protected $firebaseService;
+
+    public function __construct(FirebaseService $firebaseService)
+    {
+        $this->firebaseService = $firebaseService;
+    }
+
     /**
      * Display a listing of the resource.
      *
@@ -29,21 +38,21 @@ class CarController extends Controller
         // return $cars;
         return view('backend.car.index')->with('cars',$cars);
     }
-    
+
     public function car_ride_request()
     {
         $cars= Ride::where('status','pending')->paginate(10);
         // return $cars;
         return view('backend.car.ride-request')->with('rides',$cars);
     }
-    
+
     public function car_rides()
     {
         $cars= Ride::whereNot('status','pending')->paginate(10);
         // return $cars;
         return view('backend.car.ride-list')->with('rides',$cars);
     }
-    
+
     public function car_ride_assign_form($id)
     {
         $data['ride'] = Ride::find($id);
@@ -51,7 +60,7 @@ class CarController extends Controller
         $data['riders'] = User::where('role','rider')->where('assign','no')->get();
         return view('backend.car.ride-assign',$data);
     }
-    
+
     public function car_ride_assign($id,Request $request)
     {
         // return $request->rider_id;
@@ -67,8 +76,15 @@ class CarController extends Controller
         $data = Ride::with('carinfo','rider')->find($id);
 
         $rider = User::find($request->rider_id); // rider ka user model
-        $rider->notify(new RideStatusNotification($data));
-        
+
+        $body = Auth::user()->first_name . ' ' . Auth::user()->last_name .' Assign New Ride Ride';
+        $title = request()->text;
+        $fcmToken = $rider->device_token;
+        $response = $this->firebaseService->sendNotification($fcmToken, $title, $body);
+
+
+        // $rider->notify(new RideStatusNotification($data));
+
         // $user = User::find($ride->user_id); // user ka user model
         // $user->notify(new RideStatusNotification($data));
 
@@ -181,7 +197,7 @@ class CarController extends Controller
         ]);
 
         $data=$request->all();
-        
+
         // return $data;
         $status=$car->fill($data)->save();
         if($status){
@@ -203,7 +219,7 @@ class CarController extends Controller
     {
         $product=Product::findOrFail($id);
         $status=$product->delete();
-        
+
         if($status){
             request()->session()->flash('success','Product successfully deleted');
         }

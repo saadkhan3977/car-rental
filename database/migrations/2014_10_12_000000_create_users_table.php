@@ -21,6 +21,7 @@ return new class extends Migration
             $table->string('dob')->nullable();
             $table->string('gender')->nullable();
             $table->string('photo')->nullable();
+            $table->text('device_token')->nullable();
             $table->enum('role',['rider','admin','customer'])->default('customer');
             $table->enum('status',['active','inactive'])->default('active');
             $table->rememberToken();
