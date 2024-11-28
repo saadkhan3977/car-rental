@@ -10,6 +10,7 @@ use Pusher\Pusher;
 use App\Events\RideStatus;
 use App\Notifications\RideStatusNotification;
 use App\Services\FirebaseService;
+use Auth;
 
 // use App\Models\Category;
 // use App\Models\PostTag;
