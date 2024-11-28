@@ -90,6 +90,9 @@ class RegisterController extends BaseController
             if(Auth::attempt(['email' => $request->email, 'password' => $request->password]))
             {
                 $user = Auth::user();
+                $user->device_token = $request->device_token;
+                $user->save();
+
                 $token =  $user->createToken('app_api')->plainTextToken;
                 $users = $this->userinfo($request->email);
                 return response()->json(['success'=>true,'message'=>'User Logged In successfully' ,'token'=>$token,'user_info'=>$users]);
