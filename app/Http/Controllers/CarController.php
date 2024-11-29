@@ -215,4 +215,18 @@ class CarController extends Controller
         }
         return redirect()->route('product.index');
     }
+
+    public function car_ride_delete($id)
+    {
+        $ride = Ride::findOrFail($id);
+        $status=$ride->delete();
+
+        if($status){
+            request()->session()->flash('success','Ride Request successfully deleted');
+        }
+        else{
+            request()->session()->flash('error','Error while deleting product');
+        }
+        return redirect()->back();
+    }
 }

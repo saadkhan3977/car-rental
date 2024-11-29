@@ -73,7 +73,7 @@
                     @if(auth()->user()->role =='admin')
                         <a href="{{route('car-ride-assign',$car->id)}}" class="btn btn-primary btn-sm float-left mr-1" style="height:30px; width:30px;border-radius:50%" data-toggle="tooltip" title="edit" data-placement="bottom"><i class="fas fa-edit"></i></a>
                     @endif
-                    <form method="POST" action="{{route('car.destroy',[$car->id])}}">
+                    <form method="POST" action="{{route('car-ride.destroy',[$car->id])}}">
                       @csrf
                       @method('delete')
                           <button class="btn btn-danger btn-sm dltBtn" data-id={{$car->id}} style="height:30px; width:30px;border-radius:50%" data-toggle="tooltip" data-placement="bottom" title="Delete"><i class="fas fa-trash-alt"></i></button>

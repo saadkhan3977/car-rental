@@ -140,6 +140,7 @@ Route::group(['prefix'=>'admin','middleware'=>['auth','admin']],function(){
     Route::resource('/city_price',\App\Http\Controllers\CityPriceController::class);
     Route::get('/car-rides',[\App\Http\Controllers\CarController::class,'car_rides']);
     Route::get('/car-ride-new',[\App\Http\Controllers\CarController::class,'car_ride_request']);
+    Route::delete('/car-ride-delete/{id}',[\App\Http\Controllers\CarController::class,'car_ride_delete'])->name('car-ride.destroy');
     Route::get('/car-ride-assign/{id}',[\App\Http\Controllers\CarController::class,'car_ride_assign_form'])->name('car-ride-assign');
     Route::post('/car-ride-assign/{id}',[\App\Http\Controllers\CarController::class,'car_ride_assign'])->name('ride-assign');
     // Ajax for sub category
