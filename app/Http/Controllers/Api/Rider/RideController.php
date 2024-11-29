@@ -8,9 +8,18 @@ use App\Models\Ride;
 use App\Models\User;
 use Auth;
 use App\Notifications\RideStatusNotification;
+use App\Services\FirebaseService;
 
 class RideController extends Controller
 {
+
+    protected $firebaseService;
+
+    public function __construct(FirebaseService $firebaseService)
+    {
+        $this->firebaseService = $firebaseService;
+    }
+
     public function index()
     {
         $ride = Ride::with('carinfo','user')->where('status','in process')->where('rider_id',Auth::user()->id)->first();
