@@ -52,7 +52,7 @@ class RideController extends Controller
                 // $customer->notify(new RideStatusNotification($ride));
                 // $rider = User::find($request->rider_id); // rider ka user model
 
-                $body = Auth::user()->first_name . ' ' . Auth::user()->last_name .' Assign Accept Your Ride Request';
+                $body = Auth::user()->first_name . ' ' . Auth::user()->last_name .' Accept Your Ride Request';
                 $title = request()->text;
                 $fcmToken = $customer->device_token;
                 $response = $this->firebaseService->sendNotification($fcmToken, $title, $body);
