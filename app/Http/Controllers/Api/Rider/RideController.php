@@ -31,9 +31,9 @@ class RideController extends Controller
         $ride = Ride::with('carinfo','rider')->find($id);
         if($ride)
         {
-
             $ride->status = $request->status;
             $ride->save();
+
             if($request->status == 'reject')
             {
                 $admin = User::where('role','admin')->first(); // Admin ka user model
@@ -49,6 +49,7 @@ class RideController extends Controller
                 $user->save();
 
                 $customer = User::find($ride->user_id); // user ka user model
+
                 // $customer->notify(new RideStatusNotification($ride));
                 // $rider = User::find($request->rider_id); // rider ka user model
 
@@ -56,14 +57,14 @@ class RideController extends Controller
                 $title = request()->text;
                 $fcmToken = $customer->device_token;
                 $response = $this->firebaseService->sendNotification($fcmToken, $title, $body);
+                $ridee = Ride::with('carinfo','rider')->find($id);
 
-                return response()->json(['success'=> true,'message'=>'Ride Update','ride_info'=>$ride],200);
+                return response()->json(['success'=> true,'message'=>'Ride Update','ride_info'=>$ridee],200);
             }
-        } else{
-
+        }
+        else
+        {
             return response()->json(['success'=> false,'message'=>'No Ride Found.'],404);
         }
-
-
     }
 }
