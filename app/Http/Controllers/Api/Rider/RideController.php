@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Api\Rider;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use App\Models\Ride;
+use App\Models\Conversation;
 use App\Models\User;
 use Auth;
 use App\Notifications\RideStatusNotification;
@@ -43,6 +44,24 @@ class RideController extends Controller
             }
             else
             {
+                $userid = Auth::id();
+                $chat = Conversation::where(function ($query) use ($userid) {
+                    $query->where('user_id', $userid);
+                        // ->where('target_id', $targetid);
+                })->orWhere(function ($query) use ($userid) {
+                    $query->where('target_id', $userid);
+                        // ->where('target_id', Auth::id());
+                })->first();
+
+                if(!$chat)
+                {
+                    Conversation::create([
+                        'user_id' => $userid,
+                        'target_id' => $ride->user_id,
+                    ]);
+                }
+
+
                 $user = User::find(Auth::user()->id);
                 $user->lat = $request->lat;
                 $user->lng = $request->lng;
