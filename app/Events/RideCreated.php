@@ -22,7 +22,7 @@ class RideCreated implements ShouldBroadcast
 
     public function broadcastOn()
     {
-        return new Channel('rider-channel-',$this->message->rider_id);  // Make sure it's public or private as per your use case
+        return new Channel('rider-channel-',$this->message);  // Make sure it's public or private as per your use case
     }
 
     public function broadcastWith()
