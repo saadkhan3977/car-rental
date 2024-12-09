@@ -22,6 +22,7 @@ class RideCreated implements ShouldBroadcast
 
     public function broadcastOn()
     {
+        dd($this->message->rider_id);
         return new Channel('rider-channel-2',$this->message->rider_id);  // Make sure it's public or private as per your use case
     }
 
