@@ -72,7 +72,7 @@ class CarController extends Controller
 
 
         $data = Ride::with('carinfo','rider','user')->find($id);
-return $data->user;
+return $request->rider_id;
         $rider = User::find($request->rider_id); // rider ka user model
 
         $body = Auth::user()->first_name . ' ' . Auth::user()->last_name .' Assign New Ride Ride';
@@ -83,7 +83,7 @@ return $data->user;
         $message = [
             'ride_id' => $data->id,
             'rider_id' => $request->rider_id,
-            'user_id' => $data->user->user_id,
+            'user_id' => $data->user->id,
             'text' => 'New Ride Assign',
             'createdAt' => $data->updated_at,
             'ride_info' => $data,
