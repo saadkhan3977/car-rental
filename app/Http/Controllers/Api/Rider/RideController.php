@@ -7,6 +7,7 @@ use Illuminate\Http\Request;
 use App\Models\Ride;
 use App\Models\Conversation;
 use App\Models\User;
+use App\Events\RideCreated;
 use Auth;
 use App\Notifications\RideStatusNotification;
 use App\Services\FirebaseService;
@@ -29,7 +30,7 @@ class RideController extends Controller
 
     public function rider_ride_update(Request $request,$id)
     {
-        $ride = Ride::with('carinfo','rider')->find($id);
+        $ride = Ride::with('carinfo','rider','user')->find($id);
         if($ride)
         {
             $ride->status = $request->status;
@@ -39,6 +40,19 @@ class RideController extends Controller
             {
                 $admin = User::where('role','admin')->first(); // Admin ka user model
                 $admin->notify(new RideStatusNotification($ride));
+
+
+                $message = [
+                    'ride_id' => $ride->id,
+                    'rider_id' => $ride->rider_id,
+                    'user_id' => $ride->user_id,
+                    'text' => 'Ride Request Reject',
+                    'createdAt' => $ride->updated_at,
+                    'ride_info' => $ride,
+                ];
+
+                // Broadcast the event
+                broadcast(new RideCreated((object)$message))->toOthers();
 
                 return response()->json(['success'=> true,'message'=>'Ride Update','ride_info'=>$ride],200);
             }
@@ -76,7 +90,20 @@ class RideController extends Controller
                 $title = request()->text;
                 $fcmToken = $customer->device_token;
                 $response = $this->firebaseService->sendNotification($fcmToken, $title, $body);
-                $ridee = Ride::with('carinfo','rider')->find($id);
+                $ridee = Ride::with('carinfo','rider','user')->find($id);
+
+
+                $message = [
+                    'ride_id' => $ridee->id,
+                    'rider_id' => $ridee->rider_id,
+                    'user_id' => $ridee->user_id,
+                    'text' => 'Ride Request Accept',
+                    'createdAt' => $ridee->updated_at,
+                    'ride_info' => $ridee,
+                ];
+
+                // Broadcast the event
+                broadcast(new RideCreated((object)$message))->toOthers();
 
                 return response()->json(['success'=> true,'message'=>'Ride Update','ride_info'=>$ridee],200);
             }

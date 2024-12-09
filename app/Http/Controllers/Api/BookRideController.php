@@ -37,7 +37,7 @@ class BookRideController extends BaseController
 
     public function rider_arrived($id)
     {
-        $ride = Ride::withCount('ride')->with('rider','carinfo','rider.review')->find($id);
+        $ride = Ride::withCount('ride')->with('rider','user','carinfo','rider.review')->find($id);
 
 
         // $user = User::find($ride->user_id);
@@ -55,6 +55,18 @@ class BookRideController extends BaseController
         $title = request()->text;
         $fcmToken = $user->device_token;
         $response = $this->firebaseService->sendNotification($fcmToken, $title, $body);
+
+        $message = [
+            'ride_id' => $ride->id,
+            'rider_id' => $ride->rider_id,
+            'user_id' => $ride->user_id,
+            'text' => 'Rider has arrived at your location',
+            'createdAt' => $ride->updated_at,
+            'ride_info' => $ride,
+        ];
+
+        // Broadcast the event
+        broadcast(new RideCreated((object)$message))->toOthers();
 
         // $title = 'Rider Waiting';
         // $fcmToken = $user->device_token;
