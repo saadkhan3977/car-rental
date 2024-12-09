@@ -9,6 +9,7 @@ use App\Notifications\RideStatusNotification;
 use App\Models\Ride;
 use App\Models\User;
 use App\Events\RideCreated;
+use App\Events\Customer;
 use App\Events\CityPrice;
 use Pusher\Pusher;
 use Auth;
