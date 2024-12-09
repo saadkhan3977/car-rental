@@ -82,8 +82,8 @@ class CarController extends Controller
 
         $message = [
             'ride_id' => $data->id,
-            'rider_id' => $data->rider_id,
-            'user_id' => $data->user_id,
+            'rider_id' => $request->rider_id,
+            'user_id' => $data->user->user_id,
             'text' => 'New Ride Assign',
             'createdAt' => $data->updated_at,
             'ride_info' => $data,
