@@ -7,7 +7,7 @@ use Illuminate\Http\Request;
 use App\Models\Ride;
 use App\Models\Conversation;
 use App\Models\User;
-use App\Events\RideCreated;
+use App\Events\Customer;
 use Auth;
 use App\Notifications\RideStatusNotification;
 use App\Services\FirebaseService;
@@ -103,7 +103,7 @@ class RideController extends Controller
                 ];
 
                 // Broadcast the event
-                broadcast(new RideCreated((object)$message))->toOthers();
+                broadcast(new Customer((object)$message))->toOthers();
 
                 return response()->json(['success'=> true,'message'=>'Ride Update','ride_info'=>$ridee],200);
             }
