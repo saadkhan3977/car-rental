@@ -66,7 +66,7 @@ class BookRideController extends BaseController
         ];
 
         // Broadcast the event
-        broadcast(new RideCreated((object)$message))->toOthers();
+        broadcast(new Customer((object)$message))->toOthers();
 
         // $title = 'Rider Waiting';
         // $fcmToken = $user->device_token;
