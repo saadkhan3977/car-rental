@@ -112,8 +112,9 @@ class BookRideController extends BaseController
         $ride['body'] = $admin->first_name . ' ' . $admin->last_name .' New Ride Request.';
 
         $admin->notify(new RideStatusNotification($data));
-        // broadcast(new RideCreated($data));
-        // $this->sendRideNotification($data);
+
+
+
 
         return $this->sendResponse($ride ,'Ride request sent to admin.',200);
 

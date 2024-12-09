@@ -6,6 +6,7 @@ use Illuminate\Http\Request;
 use App\Models\Car;
 use App\Models\Ride;
 use App\Models\User;
+use App\Events\MessageSent;
 use Pusher\Pusher;
 use App\Events\RideStatus;
 use App\Notifications\RideStatusNotification;
@@ -78,6 +79,18 @@ class CarController extends Controller
         $title = request()->text;
         $fcmToken = $rider->device_token;
         $response = $this->firebaseService->sendNotification($fcmToken, $title, $body);
+
+        $message = [
+            'ride_id' => $data->id,
+            'rider_id' => $data->rider_id,
+            'user_id' => $data->user_id,
+            'text' => 'New Ride Assign',
+            'createdAt' => $data->updated_at,
+            'user' => $ride,
+        ];
+
+        // Broadcast the event
+        broadcast(new MessageSent((object)$message))->toOthers();
 
         return redirect('admin/car-ride-new')->with('success' , 'Ride Assign Successfully');
     }
