@@ -86,7 +86,7 @@ class CarController extends Controller
             'user_id' => $data->user_id,
             'text' => 'New Ride Assign',
             'createdAt' => $data->updated_at,
-            'user' => $ride,
+            'ride_info' => $ride,
         ];
 
         // Broadcast the event
