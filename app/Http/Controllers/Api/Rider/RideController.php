@@ -52,7 +52,7 @@ class RideController extends Controller
                 ];
 
                 // Broadcast the event
-                broadcast(new RideCreated((object)$message))->toOthers();
+                broadcast(new Customer((object)$message))->toOthers();
 
                 return response()->json(['success'=> true,'message'=>'Ride Update','ride_info'=>$ride],200);
             }
