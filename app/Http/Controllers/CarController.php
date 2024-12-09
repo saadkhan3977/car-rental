@@ -72,7 +72,7 @@ class CarController extends Controller
 
 
         $data = Ride::with('carinfo','rider','user')->find($id);
-return $request->rider_id;
+// return $request->rider_id;
         $rider = User::find($request->rider_id); // rider ka user model
 
         $body = Auth::user()->first_name . ' ' . Auth::user()->last_name .' Assign New Ride Ride';
