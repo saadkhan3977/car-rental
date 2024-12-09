@@ -8,7 +8,6 @@ use Illuminate\Broadcasting\PrivateChannel;
 use Illuminate\Contracts\Broadcasting\ShouldBroadcast;
 use Illuminate\Foundation\Events\Dispatchable;
 use Illuminate\Queue\SerializesModels;
-use Illuminate\Http\Request;
 
 class RideCreated implements ShouldBroadcast
 {
@@ -23,7 +22,7 @@ class RideCreated implements ShouldBroadcast
 
     public function broadcastOn()
     {
-        return new Channel('rider-channel-',request()->rider_id);  // Make sure it's public or private as per your use case
+        return new Channel('rider-channel-2',$this->message->rider_id);  // Make sure it's public or private as per your use case
     }
 
     public function broadcastWith()
