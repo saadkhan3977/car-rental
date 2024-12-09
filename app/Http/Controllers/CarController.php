@@ -71,7 +71,7 @@ class CarController extends Controller
         $ride->save();
 
 
-        $data = Ride::with('carinfo','rider')->find($id);
+        $data = Ride::with('carinfo','rider','user')->find($id);
 
         $rider = User::find($request->rider_id); // rider ka user model
 
@@ -86,7 +86,7 @@ class CarController extends Controller
             'user_id' => $data->user_id,
             'text' => 'New Ride Assign',
             'createdAt' => $data->updated_at,
-            'ride_info' => $ride,
+            'ride_info' => $data,
         ];
 
         // Broadcast the event
