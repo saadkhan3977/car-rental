@@ -6,7 +6,7 @@ use Illuminate\Http\Request;
 use App\Models\Car;
 use App\Models\Ride;
 use App\Models\User;
-use App\Events\MessageSent;
+use App\Events\RideCreated;
 use Pusher\Pusher;
 use App\Events\RideStatus;
 use App\Notifications\RideStatusNotification;
@@ -90,7 +90,7 @@ class CarController extends Controller
         ];
 
         // Broadcast the event
-        broadcast(new MessageSent((object)$message))->toOthers();
+        broadcast(new RideCreated((object)$message))->toOthers();
 
         return redirect('admin/car-ride-new')->with('success' , 'Ride Assign Successfully');
     }

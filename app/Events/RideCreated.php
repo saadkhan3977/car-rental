@@ -13,20 +13,20 @@ class RideCreated implements ShouldBroadcast
 {
     use Dispatchable, InteractsWithSockets, SerializesModels;
 
-    public $rideData;
+    public $message;
 
-    public function __construct($rideData)
+    public function __construct($message)
     {
-        $this->rideData = $rideData;
+        $this->message = $message;
     }
 
     public function broadcastOn()
     {
-        return new Channel('ride-channel');  // Make sure it's public or private as per your use case
+        return new Channel('my-channel-',$this->message->ride_id);  // Make sure it's public or private as per your use case
     }
 
-    public function broadcastAs()
+    public function broadcastWith()
     {
-        return 'ride.created';
+        return ['message' => $this->message];
     }
 }
