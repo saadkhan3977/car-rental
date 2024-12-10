@@ -8,7 +8,7 @@ use Illuminate\Contracts\Broadcasting\ShouldBroadcast;
 use Illuminate\Queue\SerializesModels;
 use Illuminate\Http\Request;
 
-class Rider implements ShouldBroadcast
+class RideEvent implements ShouldBroadcast
 {
     use InteractsWithSockets, SerializesModels;
 
