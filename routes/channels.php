@@ -22,9 +22,12 @@ Broadcast::channel('my-channel-{chatId}', function ($user, $chatId) {
     return true; // or your authorization logic
 });
 
-Broadcast::channel('private-rider-channel-{riderid}', function ($user, $riderId) {
-    \Log::info('Rider subscribing to chat channel: ' . $riderId, ['rider_id' => $user->id]);
-    return true; // or your authorization logic
+// Broadcast::channel('private-rider-channel-{riderid}', function ($user, $riderId) {
+//     \Log::info('Rider subscribing to chat channel: ' . $riderId, ['rider_id' => $user->id]);
+//     return true; // or your authorization logic
+// });
+Broadcast::channel('private-rider-channel-{riderId}', function ($user, $riderId) {
+    return (int) $user->id === (int) $riderId; // Only allow the rider with matching ID
 });
 
 Broadcast::channel('customer-channel-{customerd}', function ($user, $customerId) {
