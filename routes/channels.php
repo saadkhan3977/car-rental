@@ -26,8 +26,8 @@ Broadcast::channel('my-channel-{chatId}', function ($user, $chatId) {
 //     \Log::info('Rider subscribing to chat channel: ' . $riderId, ['rider_id' => $user->id]);
 //     return true; // or your authorization logic
 // });
-Broadcast::channel('private-rider-channel-{riderId}', function ($user, $riderId) {
-    return (int) $user->id === (int) $riderId; // Only allow the rider with matching ID
+Broadcast::channel('rider-channel-{riderId}', function (User $user, int $riderId) {
+    return $user->id === Ride::findOrNew($riderId)->rider_id;
 });
 
 Broadcast::channel('customer-channel-{customerd}', function ($user, $customerId) {
