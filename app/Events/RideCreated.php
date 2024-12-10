@@ -3,11 +3,13 @@ namespace App\Events;
 
 use Illuminate\Broadcasting\Channel;
 use Illuminate\Broadcasting\InteractsWithSockets;
-use Illuminate\Broadcasting\PresenceChannel;
 use Illuminate\Broadcasting\PrivateChannel;
 use Illuminate\Contracts\Broadcasting\ShouldBroadcast;
-use Illuminate\Foundation\Events\Dispatchable;
 use Illuminate\Queue\SerializesModels;
+use Illuminate\Http\Request;
+use App\Models\Conversation;
+use App\Models\Message;
+use Auth;
 
 class RideCreated implements ShouldBroadcast
 {
@@ -23,7 +25,7 @@ class RideCreated implements ShouldBroadcast
     public function broadcastOn()
     {
         // dd($this->message->rider_id);
-        return new PrivateChannel('rider-channel-'.$this->message->rider_id);  // Make sure it's public or private as per your use case
+        return ['private-rider-channel-'.$this->message->rider_id];  // Make sure it's public or private as per your use case
     }
 
     public function broadcastWith()
