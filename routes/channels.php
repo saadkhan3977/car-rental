@@ -21,3 +21,17 @@ Broadcast::channel('my-channel-{chatId}', function ($user, $chatId) {
     \Log::info('User subscribing to chat channel: ' . $chatId, ['user_id' => $user->id]);
     return true; // or your authorization logic
 });
+
+Broadcast::channel('rider-channel-{riderid}', function ($user, $chatId) {
+    \Log::info('Rider subscribing to chat channel: ' . $chatId, ['rider_id' => $user->id]);
+    return true; // or your authorization logic
+});
+
+Broadcast::channel('customer-channel-{customerd}', function ($user, $chatId) {
+    \Log::info('Customer subscribing to chat channel: ' . $chatId, ['user_id' => $user->id]);
+    return true; // or your authorization logic
+});
+
+// Broadcast::channel('rider-channel-{riderId}', function ($user, $riderId) {
+//     return (int) $user->id === (int) $riderId; // Adjust logic as needed
+// });
