@@ -26,6 +26,14 @@ class RouteServiceProvider extends ServiceProvider
      */
     public function boot()
     {
+        parent::boot();
+
+        Broadcast::channel('rider-channel-{riderId}', function (User $user, int $riderId) {
+            \Log::info('User attempting to subscribe to channel', ['user_id' => $user->id, 'rider_id' => $riderId]);
+            // Check if the rider is authorized to subscribe to this channel
+            return $user->id === $riderId;
+        });
+
         $this->configureRateLimiting();
 
         $this->routes(function () {
