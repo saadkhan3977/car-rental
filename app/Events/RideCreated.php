@@ -12,9 +12,10 @@ use Illuminate\Broadcasting\PresenceChannel;
 use Illuminate\Contracts\Broadcasting\ShouldBroadcast;
 use Illuminate\Foundation\Events\Dispatchable;
 
-class RideCreated
+class RideCreated implements ShouldBroadcast
 {
-    use SerializesModels;
+    // use SerializesModels;
+    use Dispatchable, InteractsWithSockets, SerializesModels;
 
     // public $user;
     public $message;
