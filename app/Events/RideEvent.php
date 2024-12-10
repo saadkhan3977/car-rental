@@ -22,7 +22,7 @@ class RideEvent implements ShouldBroadcast
     public function broadcastOn()
     {
         // dd($this->message->rider_id);
-        return ['rider-channel-'.$this->message['rider_id']];  // Make sure it's public or private as per your use case
+        return ['rider-channel-'.$this->message->rider_id];  // Make sure it's public or private as per your use case
     }
 
     public function broadcastWith()
