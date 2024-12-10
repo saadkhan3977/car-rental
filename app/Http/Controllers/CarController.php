@@ -90,7 +90,7 @@ class CarController extends Controller
         ];
 
         // Broadcast the event
-        Log::info('Broadcasting RideCreated event to rider-channel-2');
+        \Log::info('Broadcasting RideCreated event to rider-channel-2');
 
         broadcast(new RideCreated((object)$message))->toOthers();
 
