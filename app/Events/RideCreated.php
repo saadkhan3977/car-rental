@@ -13,7 +13,7 @@ use Auth;
 
 class RideCreated implements ShouldBroadcast
 {
-    use Dispatchable, InteractsWithSockets, SerializesModels;
+    use InteractsWithSockets, SerializesModels;
 
     public $message;
 
@@ -24,8 +24,7 @@ class RideCreated implements ShouldBroadcast
 
     public function broadcastOn()
     {
-        // dd($this->message->rider_id);
-        return ['rider-channel-'.$this->message->rider_id];  // Make sure it's public or private as per your use case
+        return ['rider-channel-'.$this->message->rider_id];
     }
 
     public function broadcastWith()
