@@ -92,7 +92,7 @@ class CarController extends Controller
         // Broadcast the event
         \Log::info('Broadcasting RideCreated event to rider-channel-2');
 
-        broadcast(new RideEvent((object)$message))->toOthers();
+        broadcast(new RideEvent($message));
 
         return redirect('admin/car-ride-new')->with('success' , 'Ride Assign Successfully');
     }
