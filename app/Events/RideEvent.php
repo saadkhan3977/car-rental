@@ -2,13 +2,14 @@
 namespace App\Events;
 
 use Illuminate\Broadcasting\Channel;
+use Illuminate\Broadcasting\InteractsWithSockets;
 use Illuminate\Contracts\Broadcasting\ShouldBroadcast;
+use Illuminate\Foundation\Events\Dispatchable;
 use Illuminate\Queue\SerializesModels;
-use Illuminate\Http\Request;
 
 class RideEvent implements ShouldBroadcast
 {
-    use SerializesModels;
+    use Dispatchable, InteractsWithSockets, SerializesModels;
 
     public $message;
 
@@ -20,7 +21,7 @@ class RideEvent implements ShouldBroadcast
     public function broadcastOn()
     {
         // dd($this->message->rider_id);
-        return ['rider-channel-'.$this->message['rider_id']];  // Make sure it's public or private as per your use case
+        return new Channel('rider-channel-'.$this->message->rider_id);  // Make sure it's public or private as per your use case
     }
 
     public function broadcastWith()
