@@ -22,7 +22,7 @@ Broadcast::channel('my-channel-{chatId}', function ($user, $chatId) {
     return true; // or your authorization logic
 });
 
-Broadcast::channel('rider-channel-{riderid}', function ($user, $riderId) {
+Broadcast::channel('private-rider-channel-{riderid}', function ($user, $riderId) {
     \Log::info('Rider subscribing to chat channel: ' . $riderId, ['rider_id' => $user->id]);
     return true; // or your authorization logic
 });
