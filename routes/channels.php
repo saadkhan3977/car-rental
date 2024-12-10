@@ -26,7 +26,7 @@ Broadcast::channel('my-channel-{chatId}', function ($user, $chatId) {
 //     \Log::info('Rider subscribing to chat channel: ' . $riderId, ['rider_id' => $user->id]);
 //     return true; // or your authorization logic
 // });
-Broadcast::channel('rider-channel-{riderId}', function (User $user, int $riderId) {
+Broadcast::channel('rider-channel-{riderId}', function ($user, $riderId) {
     \Log::info('Rider subscribing to chat channel: ' . $riderId, ['rider_id' => $user->id]);
     return $user->id === $riderId;
 });
