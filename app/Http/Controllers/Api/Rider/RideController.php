@@ -8,6 +8,7 @@ use App\Models\Ride;
 use App\Models\Conversation;
 use App\Models\User;
 use App\Events\Customer;
+use App\Events\Tracking;
 use Auth;
 use App\Notifications\RideStatusNotification;
 use App\Services\FirebaseService;
@@ -34,6 +35,8 @@ class RideController extends Controller
         if($ride)
         {
             $ride->status = $request->status;
+            $ride->lat = $request->lat;
+            $ride->status = $request->lng;
             $ride->save();
 
             if($request->status == 'reject')
@@ -112,5 +115,29 @@ class RideController extends Controller
         {
             return response()->json(['success'=> false,'message'=>'No Ride Found.'],404);
         }
+    }
+
+    public function update_location(Request $request,$id)
+    {
+
+        $user = User::find(Auth::user()->id);
+        $user->lat = $request->lat;
+        $user->lng = $request->lng;
+        $user->save();
+
+        $ride = Ride::with('carinfo','rider','user')->find($id);
+
+        $message = [
+            'ride_id' => $ride->id,
+            'rider_id' => $ride->rider_id,
+            'user_id' => $ride->user_id,
+            'text' => 'Rider Location Update',
+            'createdAt' => $ride->updated_at,
+            'ride_info' => $ride,
+        ];
+
+        broadcast(new Tracking((object)$message))->toOthers();
+
+        return response()->json(['success'=> true,'message'=>'Ride Update','ride_info'=>$ride],200);
     }
 }
