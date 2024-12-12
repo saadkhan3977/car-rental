@@ -35,8 +35,9 @@ Broadcast::channel('rider-channel-{riderId}', function ($user, $riderId) {
 });
 
 Broadcast::channel('customer-channel-{customerd}', function ($user, $customerId) {
-    \Log::info('Customer subscribing to chat channel: ' . $customerId, ['user_id' => $user->id]);
-    return true; // or your authorization logic
+    \Log::info('Customer subscribing to chat channel: ' );
+    // return true; // or your authorization logic
+    return (int) $user->id === (int) $customerId;
 });
 
 // Broadcast::channel('rider-channel-{riderId}', function ($user, $riderId) {
