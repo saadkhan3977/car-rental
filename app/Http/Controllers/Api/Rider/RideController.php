@@ -35,8 +35,6 @@ class RideController extends Controller
         if($ride)
         {
             $ride->status = $request->status;
-            $ride->lat = $request->lat;
-            $ride->status = $request->lng;
             $ride->save();
 
             if($request->status == 'reject')

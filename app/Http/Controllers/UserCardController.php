@@ -9,18 +9,18 @@ use Validator;
 use App\Models\UserCardDetail;
 class UserCardController extends Controller
 {
-    
+
     public function __construct()
     {
           $stripe = \Stripe\Stripe::setApiKey(env('STRIPE_SECRET'));
     }
-	
-	
+
+
 	public function updatecard(Request $request)
     {
         try{
 			$input = $request->all();
-            
+
 			//$stripe->customers->retrieve(
 			//	Auth::user()->stripe_id,
 			//	[]
@@ -33,11 +33,12 @@ class UserCardController extends Controller
 				'exp_month'=> Auth::user()->exp_month,
 				'exp_year'=> Auth::user()->exp_year,
 			]);
-			 $customer = \Stripe\Customer::create([
+
+            $customer = \Stripe\Customer::create([
                 'source' => $input["token"]["id"],
                 'email' => Auth::user()->email,
             ]);
-            
+
             $user = User::find(Auth::user()->id);
 			$user->stripe_id = $customer["id"];
             $user->pm_last_four = $input["token"]["card"]["last4"] ?? "";
@@ -45,8 +46,8 @@ class UserCardController extends Controller
 			$user->exp_month = $input["token"]["card"]["expMonth"] ?? "";
 			$user->exp_year = $input["token"]["card"]["expYear"] ?? "";
             $user->card_change_limit - 1;
-			$user->save();		
-			$users = User::with(['goal','temporary_wallet','wallet','payments'])->where('id',Auth::user()->id)->first();
+			$user->save();
+			$users = User::find(Auth::user()->id);
 			return response()->json(['success'=>true,'message'=>'Card Update Successfully','data'=>$users]);
 		    //return response()->json($user, 200);
         }
@@ -54,7 +55,7 @@ class UserCardController extends Controller
           return response()->json(["success" => false, 'error'=>$e->getMessage()],500);
         }
     }
-	
+
     public function addcard(Request $request)
     {
         try{
@@ -78,7 +79,7 @@ class UserCardController extends Controller
         }
 
 
-        
+
         // $response =  \Stripe\Token::create([
         //     'card' => [
         //       'number' => '4242424242424242',
@@ -88,15 +89,15 @@ class UserCardController extends Controller
         //     ],
         //   ]);
 
-        
-   
+
+
 
         //  $charge = \Stripe\Charge::create([
         //     'amount' => 1000*100,
         //     'currency' => 'usd',
         //     'customer' => "cus_NC4RFLkNbm5KAA",
         // ]);
-        
+
         // Payment::create([
 
         // ]);
@@ -120,7 +121,7 @@ class UserCardController extends Controller
         //         'card_number' =>$request->card_number,
         //         'exp_month' =>$request->exp_month,
         //         'exp_year' =>$request->exp_year,
-        //         'cvv' =>$request->cvv                
+        //         'cvv' =>$request->cvv
         //     ]);
         //     $response['user_info'] = User::with(['user_card'])->find(Auth::id());
         //     return response()->json(['success'=>true , 'response'=> $response]);
@@ -128,9 +129,9 @@ class UserCardController extends Controller
         //     $response['user_info'] =User::with(['user_card'])->find(Auth::id());
         //     $response['error'] = 'Your card is already Uploaded';
         //     return response()->json(['success'=>true , 'response'=> $response]);
-        // } 
-        
-        
-        
+        // }
+
+
+
     }
 }
