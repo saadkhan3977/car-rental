@@ -131,7 +131,7 @@ class RideController extends Controller
             'user_id' => $ride->user_id,
             'text' => 'Rider Location Update',
             'createdAt' => $ride->updated_at,
-            'ride_info' => $ride,
+            'data' => ['lat' =>$request->lat, 'lng' => $request->lng],
         ];
 
         broadcast(new Tracking((object)$message))->toOthers();
