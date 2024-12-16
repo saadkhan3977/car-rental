@@ -76,7 +76,6 @@ class RideController extends Controller
                     ]);
                 }
 
-
                 $user = User::find(Auth::user()->id);
                 $user->lat = $request->lat;
                 $user->lng = $request->lng;
