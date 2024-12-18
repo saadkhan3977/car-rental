@@ -31,6 +31,17 @@ class RideController extends Controller
 
     public function rider_ride_update(Request $request,$id)
     {
+
+        $validator = \Validator::make($request->all(),[
+            'status'=>'required',
+            'lat'=>'required',
+            'lng'=>'required',
+        ]);
+
+        if($validator->fails()) {
+            return response()->json(['success'=>false,'message'=>$validator->errors()],500);
+        }
+
         $ride = Ride::with('carinfo','rider','user')->find($id);
         if($ride)
         {
