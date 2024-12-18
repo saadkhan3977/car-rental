@@ -38,7 +38,8 @@ class RideController extends Controller
             'lng'=>'required',
         ]);
 
-        if($validator->fails()) {
+        if($validator->fails())
+        {
             return response()->json(['success'=>false,'message'=>$validator->errors()],500);
         }
 
