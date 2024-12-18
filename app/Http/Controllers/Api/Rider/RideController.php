@@ -114,6 +114,25 @@ class RideController extends Controller
         }
     }
 
+    public function ride_on_the_way(Request $request,$id)
+    {
+        $ride = Ride::with('carinfo','rider','user')->find($id);
+        if($ride)
+        {
+            $ride->status = $request->status;
+            $ride->save();
+
+            $ridee = Ride::with('carinfo','rider','user')->find($id);
+
+
+            return response()->json(['success'=> true,'message'=>'Ride Update','ride_info'=>$ridee],200);
+        }
+        else
+        {
+            return response()->json(['success'=> false,'message'=>'No Ride Found.'],404);
+        }
+    }
+
     public function update_location(Request $request,$id)
     {
 
