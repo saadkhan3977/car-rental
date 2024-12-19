@@ -44,7 +44,7 @@ class CarController extends Controller
     public function car_ride_request()
     {
         $cars= Ride::where('status','pending')->paginate(10);
-         return $cars;
+        // return $cars;
         return view('backend.car.ride-request')->with('rides',$cars);
     }
 
