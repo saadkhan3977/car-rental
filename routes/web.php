@@ -40,10 +40,16 @@ Route::post('vendor/register',[FrontendController::class,'vendorregisterSubmit']
 Route::get('login/{provider}/', [\App\Http\Controllers\Auth\LoginController::class,'redirect'])->name('login.redirect');
 Route::get('login/{provider}/callback/', [\App\Http\Controllers\Auth\LoginController::class,'Callback'])->name('login.callback');
 
-Route::get('/',[FrontendController::class,'home'])->name('home');
+//Route::get('/',[FrontendController::class,'home'])->name('home');
+Route::get('/',function(){
+    return view('auth.login');
+});
+Route::get('/home',function(){
+    return redirect('/admin/dashboard');
+})->name('home');
 
 // Frontend Routes
-// Route::get('/home', [FrontendController::class,'index']);
+Route::get('/home', [\App\Http\Controllers\AdminController::class,'index'])->name('home');
 // Route::get('/terms', [FrontendController::class,'terms'])->name('terms');
 // Route::get('/privacy-policy', [FrontendController::class,'privacy_policy'])->name('privacy-policy');
 // Route::get('/about-us',[FrontendController::class,'aboutUs'])->name('about-us');
