@@ -25,7 +25,11 @@ class MessageController extends BaseController
             $query->where('target_id', $userid);
                 // ->where('target_id', Auth::id());
         })->first();
-        $data = Message::where('chat_id',$chat->id)->get();
+        $data = [];
+        if($chat){
+
+            $data = Message::where('chat_id',$chat->id)->get();
+        }
         return $this->sendResponse($data ,'Messages Lists');
     }
 
