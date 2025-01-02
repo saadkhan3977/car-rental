@@ -18,12 +18,19 @@ class MessageController extends BaseController
         $targetid = $request->target_id;
         $rideid = $request->ride_id;
 
+        // $chat = Conversation::where(function ($query) use ($userid) {
+        //     $query->where('user_id', $userid);
+        //         // ->where('target_id', $targetid);
+        // })->orWhere(function ($query) use ($userid) {
+        //     $query->where('target_id', $userid);
+        //         // ->where('target_id', Auth::id());
+        // })->first();
         $chat = Conversation::where(function ($query) use ($userid) {
             $query->where('user_id', $userid);
-                // ->where('target_id', $targetid);
+            $query->where('target_id', $targetid);
         })->orWhere(function ($query) use ($userid) {
             $query->where('target_id', $userid);
-                // ->where('target_id', Auth::id());
+            $query->where('user_id', $targetid);
         })->first();
         $data = [];
         if($chat){
