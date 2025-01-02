@@ -25,10 +25,10 @@ class MessageController extends BaseController
         //     $query->where('target_id', $userid);
         //         // ->where('target_id', Auth::id());
         // })->first();
-        $chat = Conversation::where(function ($query) use ($userid) {
+        $chat = Conversation::where(function ($query) use ($userid,$targetid) {
             $query->where('user_id', $userid);
             $query->where('target_id', $targetid);
-        })->orWhere(function ($query) use ($userid) {
+        })->orWhere(function ($query) use ($userid,$targetid) {
             $query->where('target_id', $userid);
             $query->where('user_id', $targetid);
         })->first();

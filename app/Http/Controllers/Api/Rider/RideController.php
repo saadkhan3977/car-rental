@@ -73,10 +73,10 @@ class RideController extends Controller
             {
                 $userid = Auth::id();
                 $targetid = $ride->user_id;
-                $chat = Conversation::where(function ($query) use ($userid) {
+                $chat = Conversation::where(function ($query) use ($userid,$targetid) {
                     $query->where('user_id', $userid);
                     $query->where('target_id', $targetid);
-                })->orWhere(function ($query) use ($userid) {
+                })->orWhere(function ($query) use ($userid,$targetid) {
                     $query->where('target_id', $userid);
                     $query->where('user_id', $targetid);
                 })->first();
