@@ -18,6 +18,7 @@ return new class extends Migration
             $table->string('distance');
             $table->string('date')->nullable();
             $table->string('time')->nullable();
+            $table->string('rider_arrived_time')->nullable();
             $table->text('stops')->nullable();
             $table->string('pickup_location_lat');
             $table->string('pickup_location_lng');
