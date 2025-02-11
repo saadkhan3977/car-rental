@@ -28,6 +28,12 @@ class RideController extends Controller
         $ride = Ride::with('carinfo','user')->where('status','in process')->where('rider_id',Auth::user()->id)->first();
         return response()->json(['success'=> true,'message'=>'Ride Info','ride_info'=>$ride],200);
     }
+   
+    public function ride_history()
+    {
+        $ride = Ride::with('carinfo','user')->where('rider_id',Auth::user()->id)->get();
+        return response()->json(['success'=> true,'message'=>'Ride Lists','ride_lists'=>$ride],200);
+    }
 
     public function rider_ride_update(Request $request,$id)
     {

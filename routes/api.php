@@ -89,14 +89,16 @@ Route::group(['middleware' => ['api','auth:api'], 'prefix' => 'auth'], function 
         Route::post('ride_update/{rideID}',[App\Http\Controllers\Api\Rider\RideController::class,'rider_ride_update']);
         Route::post('ride_on_the_way/{rideID}',[App\Http\Controllers\Api\Rider\RideController::class,'ride_on_the_way']);
         Route::post('update_location/{rideID}',[App\Http\Controllers\Api\Rider\RideController::class,'update_location']);
+        Route::get('ride_history', [App\Http\Controllers\Api\Rider\RideController::class, 'ride_history']);
     });
-
+    
     Route::group(['prefix' => 'customer'], function () {
         Route::post('review',[App\Http\Controllers\Api\UserController::class,'review']);
         Route::get('journey',[App\Http\Controllers\Api\Customer\BookingController::class,'journey']);
         Route::get('car_list',[App\Http\Controllers\Api\Customer\BookingController::class,'car_list']);
         Route::post('ride_update/{rideID}',[App\Http\Controllers\Api\Customer\RideController::class,'ride_update']);
-	//     Route::resource('quote',App\Http\Controllers\Api\Member\QuoteController::class);
+        Route::get('ride_history', [App\Http\Controllers\Api\Customer\BookingController::class, 'ride_history']);
+        //     Route::resource('quote',App\Http\Controllers\Api\Member\QuoteController::class);
 	//     Route::post('hiring/create',[App\Http\Controllers\Api\Member\QuoteController::class,'hiring_store']);
 	//     Route::post('search',[App\Http\Controllers\Api\Member\QuoteController::class,'search']);
     //     route::post('update_status/{id}',[App\Http\Controllers\Api\Member\QuoteController::class,'update_status']);
