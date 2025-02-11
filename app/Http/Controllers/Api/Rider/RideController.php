@@ -53,6 +53,7 @@ class RideController extends Controller
         if($ride)
         {
             $ride->status = $request->status;
+            $ride->rider_arrived_time = $request->rider_arrived_time;
             $ride->save();
 
             if($request->status == 'reject')
