@@ -113,10 +113,20 @@ class BookRideController extends BaseController
             'pickup_location_lng' => $request->pickup_location_lng,
             'dropoff_location_lat' => $request->dropoff_location_lat,
             'time' => $request->time,
-            'stop' => $request->stop,
+            // 'stop' => $request->stop,
             'dropoff_location_lng' => $request->dropoff_location_lng,
             'status' => 'pending',
         ]);
+
+        if($request->stop)
+        foreach($request->stop as $pickup)
+        {
+            RidePickup::create([
+                'ride_id' => $ride->id,
+                'pickup_lat' => $pickup->pickup_lat,
+                'pickup_lng' => $pickup->pickup_lng,
+            ]);
+        }
 
         $data = Ride::with('carinfo','rider')->find($ride->id);
         $data['user_info'] = Auth::user();
