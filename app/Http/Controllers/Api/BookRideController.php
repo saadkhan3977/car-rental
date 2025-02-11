@@ -112,6 +112,8 @@ class BookRideController extends BaseController
             'pickup_location_lat' => $request->pickup_location_lat,
             'pickup_location_lng' => $request->pickup_location_lng,
             'dropoff_location_lat' => $request->dropoff_location_lat,
+            'time' => $request->time,
+            'stop' => $request->stop,
             'dropoff_location_lng' => $request->dropoff_location_lng,
             'status' => 'pending',
         ]);
