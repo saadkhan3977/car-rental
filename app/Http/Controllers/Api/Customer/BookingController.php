@@ -26,8 +26,7 @@ class BookingController extends BaseController
 
     public function ride_history()
     {
-        return 'saad';
-        $ride = Ride::with('carinfo','user','rider')->where('user_id',Auth::user()->id)->get();
+        $ride = Ride::with('carinfo','rider','user')->where('user_id',Auth::user()->id)->get();
         return response()->json(['success'=> true,'message'=>'Ride Lists','ride_lists'=>$ride],200);
     }
 }
